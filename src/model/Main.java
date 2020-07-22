@@ -1,11 +1,12 @@
 package model;
+import Application.App;
 
 public class Main {
-
+	/**
+	 * Launch the application.
+	 */
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		System.out.println("Hola Mundo");
-
+		App.getInstance();
+		App.start();
 	}
-
 }
