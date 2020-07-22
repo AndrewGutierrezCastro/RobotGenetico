@@ -25,7 +25,14 @@ import gui.VentanaInicio;
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub
-		
+		switch (e.getActionCommand()) {
+		case "btnIniciar":
+			System.out.println("Boton iniciar listo");
+			break;
+
+		default:
+			break;
+		}
 	}
 
 

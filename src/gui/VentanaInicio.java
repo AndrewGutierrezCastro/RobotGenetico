@@ -43,5 +43,6 @@ public class VentanaInicio extends Ventana{
 		//poner todoso los action listener aqui
 		super.setController(pController);
 		btnIniciar.addActionListener(controller);
+		btnIniciar.setActionCommand("btnIniciar");
 	}
 }
