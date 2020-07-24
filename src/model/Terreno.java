@@ -4,8 +4,8 @@ import java.util.Random;
 
 public class Terreno {
 	public Bloque[][] terreno;
-	private final int ancho = 20, alto = 20;
-	private final long seed = 13853511;
+	public final int ancho = 20, alto = 20;
+	public final long seed = 13853511;
 	
 	public Terreno() {
 		terreno =  new Bloque[ancho][alto];

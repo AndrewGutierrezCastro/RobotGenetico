@@ -21,8 +21,9 @@ public class Caracteristicas implements Genetico {
 
 	@Override
 	public void Definir() {
-		// TODO Auto-generated method stub
-		
+		Bateria = Hardware.MEDIO;
+		Camara = Hardware.MEDIO;
+		Motor = Hardware.MEDIO;		
 	}
 	
 }

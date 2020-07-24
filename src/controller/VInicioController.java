@@ -2,6 +2,8 @@ package controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import Application.App;
 import gui.VentanaInicio;
 
  public class VInicioController extends ViewController{
@@ -27,7 +29,7 @@ import gui.VentanaInicio;
 		// TODO Auto-generated method stub
 		switch (e.getActionCommand()) {
 		case "btnIniciar":
-			System.out.println("Boton iniciar listo");
+			App.getInstance().controllerMap.get("VPRINCIPALCONTROLLER").show();
 			break;
 
 		default:
