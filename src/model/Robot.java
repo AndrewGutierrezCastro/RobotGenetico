@@ -12,9 +12,12 @@ public class Robot implements Genetico {
 	}
 	@Override
 	public void Definir() {
-		Stream.of(comportamiento,
-				  caracteristicas)
-				.forEach((R)-> R.Definir());
+		caracteristicas.Definir();
+		comportamientoBasadoHardware();
+	}
+	private void comportamientoBasadoHardware() {
+		// TODO Auto-generated method stub
+		
 	}
 	@Override
 	public void Cruce(Object obj) {
