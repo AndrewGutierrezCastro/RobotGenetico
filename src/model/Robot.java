@@ -5,6 +5,7 @@ import java.util.stream.Stream;
 public class Robot implements Genetico {
 	private Comportamiento comportamiento;
 	private Caracteristicas caracteristicas;
+	
 	public Robot() {
 		comportamiento = new Comportamiento();
 		caracteristicas = new Caracteristicas();
@@ -27,7 +28,5 @@ public class Robot implements Genetico {
 				.forEach((R)-> R.Mutar());
 		
 	}
-	
-	
 	
 }

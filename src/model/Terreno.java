@@ -9,6 +9,11 @@ public class Terreno {
 	
 	public Terreno() {
 		terreno =  new Bloque[ancho][alto];
+		//TODO Leer nivel JSON 
+		GenerarTerrenoRandom();
+	}
+	
+	private void GenerarTerrenoRandom() {
 		Random rand = new Random();
 		rand.setSeed(seed);
 		Bloque[] bloques = Bloque.values();
@@ -18,6 +23,9 @@ public class Terreno {
 				terreno[i][j] = bloques[rand.nextInt(4)];
 			}
 		}
+	}
+	private void LeerNivelJson() {
+		
 	}
 	
 	
