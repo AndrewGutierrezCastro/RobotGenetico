@@ -3,17 +3,16 @@ package model;
 import java.util.Random;
 
 public class Comportamiento implements Genetico {
-	private int[] avanzar; // 0: asi mismo,  1:esperar 2:observar
-	private int[] esperar; // 0: asi mismo,  1:avanzar 2:observar
-	private int[] observar;// 0: asi mismo,  1:avanzar 2:esperar
-	private Estado estado;
-	private static int numComportamientos = 3;
+	public int[] avanzar; // 0: asi mismo,  1:esperar 2:observar
+	public int[] esperar; // 0: asi mismo,  1:avanzar 2:observar
+	public int[] observar;// 0: asi mismo,  1:avanzar 2:esperar
+	public Estado estado;
 	
 	public Comportamiento() {
 		
-		avanzar = new int[numComportamientos];// -> MOTOR
-		esperar = new int[numComportamientos];// -> BATERIA&CAMARA
-		observar = new int[numComportamientos];// -> MAL MOTOR PERO CON BUENA CAMARA
+		avanzar = new int[]{50, 50, 0};// -> MOTOR
+		esperar = new int[]{0, 35, 65};// -> BATERIA&CAMARA
+		observar = new int[]{0, 80, 20};// -> MAL MOTOR PERO CON BUENA CAMARA
 		estado = Estado.ESPERANDO;
 	}
 	
@@ -33,6 +32,28 @@ public class Comportamiento implements Genetico {
 		esperar[2] = 100 - (esperar[0] + esperar[1]) ;
 		observar[2] = 100 - (observar[0] + observar[1]) ;
 	}
+	
+	public void verificarProba() {
+		if(avanzar[0]==0){
+			avanzar[0]=10;
+			avanzar[1]=90;}
+		if(avanzar[1]==0){
+			avanzar[1]=10;
+			avanzar[0]=90;}
+		if(esperar[1]==0){
+			esperar[1]=10;
+			esperar[2]=90;}
+		if(esperar[2]==0){
+			esperar[2]=10;
+			esperar[1]=90;}
+		if(observar[1]==0){
+			observar[1]=10;
+			observar[2]=90;}
+		if(observar[2]==0){
+			observar[2]=10;
+			observar[1]=90;}
+	}
+
 	public void Cruce(Object obj) {
 		//TODO hacer el cruce de comportamiento con otro comportamiento
 		Comportamiento comportamiento = (Comportamiento) obj;

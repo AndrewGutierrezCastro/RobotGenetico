@@ -1,9 +1,9 @@
 package model;
 
 public class Caracteristicas implements Genetico {
-	private Hardware Bateria;
-	private Hardware Camara;
-	private Hardware Motor;
+	public Hardware Bateria;
+	public Hardware Camara;
+	public Hardware Motor;
 	
 	public Caracteristicas() {
 		Definir();
