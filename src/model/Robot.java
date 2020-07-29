@@ -12,8 +12,22 @@ public class Robot implements Genetico {
 	}
 	@Override
 	public void Definir() {
-//		caracteristicas.Definir();
+		caracteristicas.Definir();
 		comportamientoBasadoHardware();
+		System.out.println("********************************");
+		System.out.println(this.caracteristicas.Bateria);
+		System.out.println(this.caracteristicas.Camara);
+		System.out.println(this.caracteristicas.Motor);
+		System.out.println(this.comportamiento.avanzar[0]);
+		System.out.println(this.comportamiento.avanzar[1]);
+		System.out.println(this.comportamiento.avanzar[2]);
+		System.out.println(this.comportamiento.esperar[0]);
+		System.out.println(this.comportamiento.esperar[1]);
+		System.out.println(this.comportamiento.esperar[2]);
+		System.out.println(this.comportamiento.observar[0]);
+		System.out.println(this.comportamiento.observar[1]);
+		System.out.println(this.comportamiento.observar[2]);
+		System.out.println("********************************");
 	}
 	private void comportamientoBasadoHardware() {
 		switch(caracteristicas.Motor) {
@@ -33,9 +47,8 @@ public class Robot implements Genetico {
 				comportamiento.observar[1] = comportamiento.observar[1]+20;
 				comportamiento.observar[2] = comportamiento.observar[2]-20;
 				break;
-			default:
-				System.out.println("No Match");
-				break;
+			case MEDIO:
+				System.out.println("No hay cambios");
 		}
 		switch(caracteristicas.Bateria) {
 			case MEDIO:
@@ -54,9 +67,8 @@ public class Robot implements Genetico {
 				comportamiento.observar[1] = comportamiento.observar[1]+30;
 				comportamiento.observar[2] = comportamiento.observar[2]-30;
 				break;
-			default:
-				System.out.println("No Match");
-				break;
+			case BASICO:
+				System.out.println("No hay cambios");
 		}
 		switch(caracteristicas.Camara) {
 			case BASICO:
@@ -75,9 +87,8 @@ public class Robot implements Genetico {
 				comportamiento.observar[1] = comportamiento.observar[1]-30;
 				comportamiento.observar[2] = comportamiento.observar[2]+30;
 				break;
-			default:
-				System.out.println("No Match");
-				break;
+			case MEDIO:
+				System.out.println("No hay cambios");
 		}
 		comportamiento.verificarProba();
 		

@@ -34,22 +34,22 @@ public class Comportamiento implements Genetico {
 	}
 	
 	public void verificarProba() {
-		if(avanzar[0]==0){
+		if(avanzar[0]<=0){
 			avanzar[0]=10;
 			avanzar[1]=90;}
-		if(avanzar[1]==0){
+		if(avanzar[1]<=0){
 			avanzar[1]=10;
 			avanzar[0]=90;}
-		if(esperar[1]==0){
+		if(esperar[1]<=0){
 			esperar[1]=10;
 			esperar[2]=90;}
-		if(esperar[2]==0){
+		if(esperar[2]<=0){
 			esperar[2]=10;
 			esperar[1]=90;}
-		if(observar[1]==0){
+		if(observar[1]<=0){
 			observar[1]=10;
 			observar[2]=90;}
-		if(observar[2]==0){
+		if(observar[2]<=0){
 			observar[2]=10;
 			observar[1]=90;}
 	}
