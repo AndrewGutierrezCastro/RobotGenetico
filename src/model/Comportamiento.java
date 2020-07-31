@@ -1,5 +1,8 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class Comportamiento implements Genetico {
@@ -14,6 +17,37 @@ public class Comportamiento implements Genetico {
 		esperar = new int[]{0, 35, 65};// -> BATERIA&CAMARA
 		observar = new int[]{0, 80, 20};// -> MAL MOTOR PERO CON BUENA CAMARA
 		estado = Estado.ESPERANDO;
+	}
+	
+	public void getNextComportamiento(int valor, int[] comportamientoActual) {
+		int indiceActual = 0;
+		ArrayList<Estado> estadoAvanzando;
+		for(int i = 0; i < comportamientoActual.length; i++) {
+			 if(comportamientoActual[i] == valor) {
+				 indiceActual = i;
+				 break;
+			 }
+		}
+		
+		switch (this.estado) {
+		case AVANZANDO:
+			estadoAvanzando = new ArrayList<Estado>(
+					Arrays.asList(Estado.AVANZANDO, Estado.ESPERANDO, Estado.OBSERVANDO));
+			this.estado = estadoAvanzando.get(indiceActual);
+			break;
+		case ESPERANDO:
+			estadoAvanzando = new ArrayList<Estado>(
+					Arrays.asList(Estado.ESPERANDO, Estado.AVANZANDO, Estado.OBSERVANDO));
+			this.estado = estadoAvanzando.get(indiceActual);
+			break;
+		case OBSERVANDO:
+			estadoAvanzando = new ArrayList<Estado>(
+					Arrays.asList(Estado.OBSERVANDO, Estado.AVANZANDO, Estado.ESPERANDO));	
+			this.estado = estadoAvanzando.get(indiceActual);
+			break;
+		default:
+			break;
+		}
 	}
 	
 	public void Definir() {
@@ -61,4 +95,5 @@ public class Comportamiento implements Genetico {
 	public void Mutar() {
 		//TODO llamar este metodo luego de la creacion para mutar
 	}
+
 }
