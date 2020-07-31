@@ -12,9 +12,8 @@ public class Terreno {
 	
 	public Terreno() {
 		terreno =  new Bloque[ancho][alto];
-		//TODO Leer nivel JSON 
-		GenerarTerrenoRandom();
-		LeerNivelJson();
+		//GenerarTerrenoRandom();
+		LeerNivelTxt();
 	}
 	
 	private void GenerarTerrenoRandom() {
@@ -27,33 +26,38 @@ public class Terreno {
 			}
 		}
 	}
-	private void LeerNivelJson() {
-		File archTerr = new File("F:/Archivos Tec/Tercer semestre/Proyectos/Analisis/AnalisisP3/RobotGenetico/src/model/Terreno.txt");
+	
+	private void LeerNivelTxt() {
+		String path = System.getProperty("user.dir")+"/src/model/Terreno.txt";
+		File archTerr = new File(path);
 		try {
 			Scanner revisador = new Scanner(archTerr);
-			int filTerr=0;
+			int numeroFila = 0;
+			Bloque seccion;
 			while(revisador.hasNextLine()) {
-				String filaTerr=revisador.nextLine();
-				String[] filaSeparada=filaTerr.split(",");
-				for(int i=0;i<filaSeparada.length-1;i++) {
-					if(filaSeparada[i].equals("0")){
-						Bloque seccion = Bloque.NORMAL;
-						this.terreno[filTerr][i]=seccion;
+				String filaTerr = revisador.nextLine();
+				String[] filaSeparada = filaTerr.split(",");
+				for(int i = 0; i < filaSeparada.length; i++) {
+					switch (filaSeparada[i]) {
+					case "0":
+						seccion = Bloque.NORMAL;
+						break;
+					case "1":
+						seccion = Bloque.MODERADO;
+						break;
+					case "2":
+						seccion = Bloque.DIFICIL;
+						break;
+					case "3":
+						seccion = Bloque.BLOQUEADO;
+						break;
+					default:
+						seccion = Bloque.NORMAL;
+						break;
 					}
-					if(filaSeparada[i].equals("1")) {
-						Bloque seccion = Bloque.MODERADO;
-						this.terreno[filTerr][i]=seccion;
-					}
-					if(filaSeparada[i].equals("2")) {
-						Bloque seccion = Bloque.DIFICIL;
-						this.terreno[filTerr][i]=seccion;
-					}
-					if(filaSeparada[i].equals("3")) {
-						Bloque seccion = Bloque.BLOQUEADO;
-						this.terreno[filTerr][i]=seccion;
-					}
+					terreno[numeroFila][i] = seccion;
 				}
-				filTerr++;
+				numeroFila++;
 			}
 			revisador.close();
 		}catch (FileNotFoundException e) {
@@ -62,4 +66,12 @@ public class Terreno {
 		}
 	}
 	
+	private void ImprimirTerrenoConsola() {
+		for (int i = 0; i < alto; i++) {
+			for (int j = 0; j < ancho; j++) {
+				System.out.print(terreno[i][j]);
+			}
+			System.out.println();
+		}
+	}
 }

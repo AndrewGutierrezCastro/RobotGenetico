@@ -2,33 +2,27 @@ package model;
 
 import java.util.stream.Stream;
 
+import javax.swing.JLabel;
+
 public class Robot implements Genetico {
 	private Comportamiento comportamiento;
 	private Caracteristicas caracteristicas;
-	
+	public int posicionX, posicionY;
+	public JLabel lblRobot;
 	public Robot() {
 		comportamiento = new Comportamiento();
 		caracteristicas = new Caracteristicas();
+		this.posicionX = 19;
+		this.posicionY = 0;
 	}
-	@Override
+	
+	@Override	
 	public void Definir() {
 		caracteristicas.Definir();
 		comportamientoBasadoHardware();
-		System.out.println("********************************");
-		System.out.println(this.caracteristicas.Bateria);
-		System.out.println(this.caracteristicas.Camara);
-		System.out.println(this.caracteristicas.Motor);
-		System.out.println(this.comportamiento.avanzar[0]);
-		System.out.println(this.comportamiento.avanzar[1]);
-		System.out.println(this.comportamiento.avanzar[2]);
-		System.out.println(this.comportamiento.esperar[0]);
-		System.out.println(this.comportamiento.esperar[1]);
-		System.out.println(this.comportamiento.esperar[2]);
-		System.out.println(this.comportamiento.observar[0]);
-		System.out.println(this.comportamiento.observar[1]);
-		System.out.println(this.comportamiento.observar[2]);
-		System.out.println("********************************");
+		lblRobot = new JLabel();
 	}
+	
 	private void comportamientoBasadoHardware() {
 		switch(caracteristicas.Motor) {
 			case BASICO:
@@ -48,7 +42,7 @@ public class Robot implements Genetico {
 				comportamiento.observar[2] = comportamiento.observar[2]-20;
 				break;
 			case MEDIO:
-				System.out.println("No hay cambios");
+				break;
 		}
 		switch(caracteristicas.Bateria) {
 			case MEDIO:
@@ -68,7 +62,7 @@ public class Robot implements Genetico {
 				comportamiento.observar[2] = comportamiento.observar[2]-30;
 				break;
 			case BASICO:
-				System.out.println("No hay cambios");
+				break;
 		}
 		switch(caracteristicas.Camara) {
 			case BASICO:
@@ -88,16 +82,18 @@ public class Robot implements Genetico {
 				comportamiento.observar[2] = comportamiento.observar[2]+30;
 				break;
 			case MEDIO:
-				System.out.println("No hay cambios");
+				break;
 		}
 		comportamiento.verificarProba();
 		
 	}
+
 	@Override
 	public void Cruce(Object obj) {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	@Override
 	public void Mutar() {
 		Stream.of(comportamiento,

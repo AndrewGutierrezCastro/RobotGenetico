@@ -1,10 +1,10 @@
 package controller;
 
-import java.awt.GridBagConstraints;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import gui.VentanaPrincipal;
+import model.Poblacion;
+import model.Robot;
 import model.Simulacion;
 import model.Terreno;
 
@@ -19,51 +21,54 @@ public class VPrincipalController extends ViewController{
 
 	private VentanaPrincipal ventana;
 	private Terreno terreno;
+	private JLabel[][] lblMatriz;
 	private JLabel[][] lblTerreno;
+	private Poblacion poblacion;
 	public VPrincipalController() {
 		ventana = new VentanaPrincipal();
 		ventana.setController(this);
 		terreno = Simulacion.getInstance().getTerreno();
-		cargarTerrenoGUI();
+		poblacion = Simulacion.getInstance().getPoblacion();
 	}
 
 	public void cargarTerrenoGUI() {
-		lblTerreno = new JLabel[terreno.ancho][terreno.alto];
+		lblTerreno = new JLabel[terreno.alto][terreno.ancho];
 		
-		for (int i = 0; i < lblTerreno.length; i++) {
+		for (int i = 0; i < lblTerreno.length ; i++) {
 			for (int j = 0; j < lblTerreno[0].length; j++) {
-				Icon icon = getImagenBloque(terreno.terreno[i][j].name());
+				Icon icon = Helpers
+					.getImagen(terreno.terreno[i][j].name(),
+							".jpg",
+							ventana.pnlTerreno.getWidth(),
+							ventana.pnlTerreno.getHeight());
 				JLabel lblBloque = new JLabel();
-				lblBloque.setIcon(icon);
-				ventana.pnlTerreno.add(lblBloque, "cell "+i+" "+j);
+				lblBloque.setIcon(icon);		
+				lblTerreno[i][j] = lblBloque;
 			}
 		}
 			
 	}
 	
-	private Icon getImagenBloque(String nombreBloque) {
+	private void crearMatrizPanel() {
+		lblMatriz = new JLabel[terreno.alto][terreno.ancho];
 		
-		String path = System.getProperty("user.dir")+"/src/images/"+nombreBloque+".jpg";
-		File archivoImagen = new File(path);
-		ImageIcon iconoImagen = null;
-		Image IconReescalada = null;
-		int x,y;
-		x = (ventana.pnlTerreno.getWidth() - terreno.ancho*5 )/ terreno.ancho;
-		y = (ventana.pnlTerreno.getHeight() - terreno.alto*5 )/ terreno.alto;
-		try {
-			  
-			iconoImagen = new ImageIcon(ImageIO.read(archivoImagen));
-			IconReescalada = iconoImagen.getImage();
-			Image newimg = IconReescalada.getScaledInstance(x, y,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
-			iconoImagen = new ImageIcon(newimg);
-		} catch (IOException e) {
-			System.out.print(e.getMessage());
-			System.out.println(" No se pudo cargar el bloque, " + nombreBloque +" "+path );
-			
+		for (int i = 0; i < lblMatriz.length ; i++) {
+			for (int j = 0; j < lblMatriz[0].length; j++) {
+				JLabel lblMatriz = new JLabel();
+				ventana.pnlTerreno.add(lblMatriz, "cell "+j+" "+i);
+				this.lblMatriz[i][j] = lblMatriz;
+			}
 		}
-		return iconoImagen;
 	}
-
+	
+	private void MostrarTerreno() {
+		for (int i = 0; i < lblTerreno.length ; i++) {
+			for (int j = 0; j < lblTerreno[0].length; j++) {	
+				lblMatriz[i][j].setIcon(lblTerreno[i][j].getIcon());
+			}
+		}
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
@@ -80,6 +85,11 @@ public class VPrincipalController extends ViewController{
 	@Override
 	public void show() {
 		ventana.frame.setVisible(true);	
+		cargarTerrenoGUI(); 
+		crearMatrizPanel();
+		MostrarTerreno();
+		MostrarRobots();
+		
 	}
 
 	@Override
@@ -87,5 +97,25 @@ public class VPrincipalController extends ViewController{
 		// TODO Auto-generated method stub
 		
 	}
+
 	
+	public Poblacion getPoblacion() {
+		return poblacion;
+	}
+
+	
+	public void setPoblacion(Poblacion poblacion) {
+		this.poblacion = poblacion;
+	}
+	
+	private void MostrarRobots() {
+		int generacionActual = poblacion.Generacion.size() - 1;
+		Robot[] listaRobots = poblacion.Generacion.get(generacionActual).robots;
+		Icon imagen = Helpers.getImagen("Robot", ".png", ventana.pnlTerreno.getWidth(),	ventana.pnlTerreno.getHeight());
+		for (Robot robot : listaRobots) {
+			robot.lblRobot.setIcon(imagen);
+			lblMatriz[robot.posicionX][robot.posicionY].setIcon(robot.lblRobot.getIcon());
+		
+		}
+	}
 }

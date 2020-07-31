@@ -21,27 +21,17 @@ public class Caracteristicas implements Genetico {
 	}
 	@Override
 	public void Definir() {
-		Bateria = Hardware.MEDIO;
-		Camara = Hardware.MEDIO;
-		Motor = Hardware.MEDIO;
 		Random rand = new Random();
-		int numBat = rand.nextInt((2 - 0) + 1) + 0;
-		if(numBat<1)
-			Bateria = Hardware.BASICO;
-		else if(numBat==1)
-			Bateria = Hardware.AVANZADO;
+		int numeroRandom;
+		Hardware[] listaHardware = Hardware.values();
 		
-		int numCam = rand.nextInt((2 - 0) + 1) + 0;
-		if(numCam<1)
-			Camara = Hardware.BASICO;
-		else if(numCam==1)
-			Camara = Hardware.AVANZADO;
-		
-		int numMot = rand.nextInt((2 - 0) + 1) + 0;
-		if(numMot<1)
-			Motor = Hardware.BASICO;
-		else if(numMot==1)
-			Motor = Hardware.AVANZADO;
+		numeroRandom = rand.nextInt(3);
+		this.Bateria = listaHardware[numeroRandom];
+		numeroRandom = rand.nextInt(3);
+		this.Camara = listaHardware[numeroRandom];
+		numeroRandom = rand.nextInt(3);
+		this.Motor = listaHardware[numeroRandom];
+
 	}
 	
 }
