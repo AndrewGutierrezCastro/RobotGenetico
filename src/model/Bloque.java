@@ -1,13 +1,13 @@
 package model;
 
 public enum Bloque {
-	NORMAL(0.3),
-	MODERADO(0.5), 
-	DIFICIL(0.8),
-	BLOQUEADO(1.0);
+	NORMAL(0),
+	MODERADO(5), 
+	DIFICIL(8),
+	BLOQUEADO(10);
 	
-	public double consumo;
-	Bloque(double pConsumo) {
+	public int consumo;
+	Bloque(int pConsumo) {
 		consumo = pConsumo;
 	}
 	

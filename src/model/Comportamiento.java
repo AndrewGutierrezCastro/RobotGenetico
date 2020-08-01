@@ -6,15 +6,13 @@ import java.util.List;
 import java.util.Random;
 
 public class Comportamiento implements Genetico {
-	public int[] avanzar; // 0: asi mismo,  1:esperar 2:observar
-	public int[] esperar; // 0: asi mismo,  1:avanzar 2:observar
-	public int[] observar;// 0: asi mismo,  1:avanzar 2:esperar
+	public int[] avanzar; // 0: asi mismo,  2:observar
+	public int[] observar;// 0: asi mismo,  1:avanzar 
 	public Estado estado;
 	
 	public Comportamiento() {
 		
 		avanzar = new int[]{50, 50, 0};// -> MOTOR
-		esperar = new int[]{0, 35, 65};// -> BATERIA&CAMARA
 		observar = new int[]{0, 80, 20};// -> MAL MOTOR PERO CON BUENA CAMARA
 		estado = Estado.ESPERANDO;
 	}
@@ -32,17 +30,12 @@ public class Comportamiento implements Genetico {
 		switch (this.estado) {
 		case AVANZANDO:
 			estadoAvanzando = new ArrayList<Estado>(
-					Arrays.asList(Estado.AVANZANDO, Estado.ESPERANDO, Estado.OBSERVANDO));
-			this.estado = estadoAvanzando.get(indiceActual);
-			break;
-		case ESPERANDO:
-			estadoAvanzando = new ArrayList<Estado>(
-					Arrays.asList(Estado.ESPERANDO, Estado.AVANZANDO, Estado.OBSERVANDO));
+					Arrays.asList(Estado.AVANZANDO, Estado.OBSERVANDO));
 			this.estado = estadoAvanzando.get(indiceActual);
 			break;
 		case OBSERVANDO:
 			estadoAvanzando = new ArrayList<Estado>(
-					Arrays.asList(Estado.OBSERVANDO, Estado.AVANZANDO, Estado.ESPERANDO));	
+					Arrays.asList(Estado.OBSERVANDO, Estado.AVANZANDO));	
 			this.estado = estadoAvanzando.get(indiceActual);
 			break;
 		default:
@@ -55,37 +48,32 @@ public class Comportamiento implements Genetico {
 		rand.setSeed(12134315);
 		
 		avanzar[0] = rand.nextInt(100);// 0 - 100 = 45
-		esperar[0] = rand.nextInt(100);
 		observar[0] = rand.nextInt(100);
 		
 		avanzar[1] = rand.nextInt(100 - avanzar[0]);// 100 - 45 = 55
-		esperar[1] = rand.nextInt(100 - esperar[0]);
 		observar[1] = rand.nextInt(100 - observar[0]);
 		
-		avanzar[2] = 100 - (avanzar[0] + avanzar[1]) ;
-		esperar[2] = 100 - (esperar[0] + esperar[1]) ;
-		observar[2] = 100 - (observar[0] + observar[1]) ;
 	}
 	
 	public void verificarProba() {
-		if(avanzar[0]<=0){
-			avanzar[0]=10;
-			avanzar[1]=90;}
-		if(avanzar[1]<=0){
-			avanzar[1]=10;
-			avanzar[0]=90;}
-		if(esperar[1]<=0){
-			esperar[1]=10;
-			esperar[2]=90;}
-		if(esperar[2]<=0){
-			esperar[2]=10;
-			esperar[1]=90;}
-		if(observar[1]<=0){
-			observar[1]=10;
-			observar[2]=90;}
-		if(observar[2]<=0){
-			observar[2]=10;
-			observar[1]=90;}
+//		if(avanzar[0]<=0){
+//			avanzar[0]=10;
+//			avanzar[1]=90;}
+//		if(avanzar[1]<=0){
+//			avanzar[1]=10;
+//			avanzar[0]=90;}
+//		if(esperar[1]<=0){
+//			esperar[1]=10;
+//			esperar[2]=90;}
+//		if(esperar[2]<=0){
+//			esperar[2]=10;
+//			esperar[1]=90;}
+//		if(observar[1]<=0){
+//			observar[1]=10;
+//			observar[2]=90;}
+//		if(observar[2]<=0){
+//			observar[2]=10;
+//			observar[1]=90;}
 	}
 
 	public void Cruce(Object obj) {

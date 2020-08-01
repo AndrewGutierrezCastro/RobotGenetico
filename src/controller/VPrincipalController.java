@@ -1,16 +1,9 @@
 package controller;
 
-import java.awt.Image;
+
 import java.awt.event.ActionEvent;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
 import gui.VentanaPrincipal;
 import model.Poblacion;
 import model.Robot;
@@ -114,7 +107,7 @@ public class VPrincipalController extends ViewController{
 		Icon imagen = Helpers.getImagen("Robot", ".png", ventana.pnlTerreno.getWidth(),	ventana.pnlTerreno.getHeight());
 		for (Robot robot : listaRobots) {
 			robot.lblRobot.setIcon(imagen);
-			lblMatriz[robot.posicionX][robot.posicionY].setIcon(robot.lblRobot.getIcon());
+			lblMatriz[robot.posicion.x][robot.posicion.y].setIcon(robot.lblRobot.getIcon());
 		
 		}
 	}

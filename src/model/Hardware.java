@@ -1,6 +1,7 @@
 package model;
 
 public enum Hardware {
+	//Primero la energia que cuesta utilizarlo y luego costo
 	BASICO (0.30, 1000), 
 	MEDIO (0.60, 2000), 
 	AVANZADO (0.90, 3000);
