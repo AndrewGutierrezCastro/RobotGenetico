@@ -10,20 +10,61 @@ import model.Robot;
 import model.Simulacion;
 import model.Terreno;
 
-public class VPrincipalController extends ViewController{
+public class VPrincipalController extends ViewController implements Runnable{
 
 	private VentanaPrincipal ventana;
 	private Terreno terreno;
 	private JLabel[][] lblMatriz;
 	private JLabel[][] lblTerreno;
 	private Poblacion poblacion;
+	private Thread HiloGeneral;
 	public VPrincipalController() {
 		ventana = new VentanaPrincipal();
 		ventana.setController(this);
 		terreno = Simulacion.getInstance().getTerreno();
 		poblacion = Poblacion.getInstance();
+		HiloGeneral = new Thread(this);
+	}
+	
+	public void Start() {
+		if(!HiloGeneral.isAlive()) {
+			HiloGeneral.start();
+		}else {
+			HiloGeneral.resume();
+			System.out.println("Hilo reanudado");
+		}
+	}
+	
+	public void run() {
+		System.out.println("Hilo corriendo...");
+		while(HiloGeneral.isAlive()) {
+			
+			try {
+				System.out.println("Corriendo");
+				ComportarPoblacion();
+				refresh();
+				HiloGeneral.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void ComportarPoblacion() {
+		this.poblacion.ComportarGeneracion();
 	}
 
+	public void Pause() {
+		if(!HiloGeneral.isInterrupted()) {
+			HiloGeneral.suspend();
+			System.out.println("Hilo suspendido");
+		}else {
+			HiloGeneral.stop();
+			System.out.println("Hilo detenido");
+		}
+	}
+	
 	public void cargarTerrenoGUI() {
 		lblTerreno = new JLabel[terreno.alto][terreno.ancho];
 		
@@ -65,10 +106,12 @@ public class VPrincipalController extends ViewController{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
-		case "ComandoEjemplo":
-			System.out.println("Comando ejemplo");
+		case "IniciarSimulacion":
+			Start();
 			break;
-
+		case "PausarSimulacion":
+			Pause();
+			break;
 		default:
 			break;
 		}
@@ -80,22 +123,23 @@ public class VPrincipalController extends ViewController{
 		ventana.frame.setVisible(true);	
 		cargarTerrenoGUI(); 
 		crearMatrizPanel();
+		refresh();
+	}
+	
+	public void refresh() {		
 		MostrarTerreno();
 		MostrarRobots();
-		
 	}
-
+	
 	@Override
 	public void initialize() {
 		// TODO Auto-generated method stub
 		
 	}
-
 	
 	public Poblacion getPoblacion() {
 		return poblacion;
 	}
-
 	
 	public void setPoblacion(Poblacion poblacion) {
 		this.poblacion = poblacion;

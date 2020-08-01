@@ -11,7 +11,6 @@ import gui.VentanaInicio;
 	
 	@Override
 	public void show() {
-		// TODO Auto-generated method stub
 		ventana.frame.setVisible(true);
 		
 	}
@@ -29,7 +28,7 @@ import gui.VentanaInicio;
 		// TODO Auto-generated method stub
 		switch (e.getActionCommand()) {
 		case "btnIniciar":
-			App.getInstance().controllerMap.get("VPRINCIPALCONTROLLER").show();
+			App.getInstance().controllerMap.get("VPRINCIPALCONTROLLER").show();		
 			break;
 
 		default:

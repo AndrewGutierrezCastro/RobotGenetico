@@ -1,22 +1,11 @@
 package gui;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-
 import controller.ViewController;
-import javax.swing.JLabel;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.BoxLayout;
-import javax.swing.JSplitPane;
-import javax.swing.JInternalFrame;
+import javax.swing.JButton;
 
 public class VentanaPrincipal extends Ventana{
 
@@ -24,6 +13,8 @@ public class VentanaPrincipal extends Ventana{
 	public JPanel pnlTerreno;
 	private int width = 760;
 	private int height = 670;
+	private JButton btnIniciarSimulacion;
+	private JButton btnPausaSimulacion;
 	/**
 	 * Create the application.
 	 */
@@ -50,10 +41,22 @@ public class VentanaPrincipal extends Ventana{
 		panel.add(pnlTerreno);
 		pnlTerreno.setLayout(new MigLayout("", "[][][][][][][][][][][][][][][][][][][][]", "[][][][][][][][][][][][][][][][][][][][]"));
 		
+		btnIniciarSimulacion = new JButton("Iniciar Simulacion");
+		btnIniciarSimulacion.setBounds(10, 568, 136, 23);
+		panel.add(btnIniciarSimulacion);
+		
+		btnPausaSimulacion = new JButton("Pausa");
+		btnPausaSimulacion.setBounds(10, 597, 85, 23);
+		panel.add(btnPausaSimulacion);
+		
 		
 	}
 	public void setController(ViewController pController) {
 		//poner todoso los action listener aqui
 		super.setController(pController);
+		btnIniciarSimulacion.addActionListener(controller);
+		btnIniciarSimulacion.setActionCommand("IniciarSimulacion");
+		btnPausaSimulacion.addActionListener(controller);
+		btnPausaSimulacion.setActionCommand("PausarSimulacion");
 	}
 }

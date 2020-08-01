@@ -12,5 +12,11 @@ public class Generacion {
 			robots[i].Definir();
 		}
 	}
+	public void ComportarRobots() {
+		for (Robot robot : robots) {
+			robot.Comportarse();
+		}
+		
+	}
 	
 }

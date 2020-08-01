@@ -23,4 +23,9 @@ public class Poblacion {
 		generacion.GeneracionAleatoria();
 		Generacion.put(0, generacion);
 	}
+
+	public void ComportarGeneracion() {
+		Generacion.get(Generacion.size() - 1).ComportarRobots();
+		
+	}
 }

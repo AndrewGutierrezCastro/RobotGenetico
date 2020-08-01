@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.stream.Stream;
-
 import javax.swing.JLabel;
-
-import Application.App;
 
 public class Robot implements Genetico {
 	private Comportamiento comportamiento;
@@ -20,34 +17,35 @@ public class Robot implements Genetico {
 		comportamiento = new Comportamiento();
 		caracteristicas = new Caracteristicas();
 		direcciones = new ArrayList<Direccion>();
-		this.posicion = Direccion.ABAJO;
+		this.posicion = Direccion.POSICION;
 		this.posicion.x = 19;
 		this.posicion.y = 0;
 	}
 	
-	private void Comportarse() {
+	public void Comportarse() {
 		
 		int menosProbable = 100,
 			masProbable = 0,
 			numeroRandom = rand.nextInt(100);
-		int[] arrayComportamientoAcutal= new int[2];
+		int[] arrayComportamientoActual = new int[2];
 		switch (comportamiento.estado) {
 		case AVANZANDO:
 			Avanzar();
-			arrayComportamientoAcutal = comportamiento.avanzar;
+			arrayComportamientoActual = comportamiento.avanzar;
 			break;
 		case OBSERVANDO:
 			Observar();
-			arrayComportamientoAcutal = comportamiento.observar;
+			arrayComportamientoActual = comportamiento.observar;
 			break;
 		default:
 			break;
 		}
+		
 		//Se obtiene la accion mas probable a tomar por ejemplo un 50%
-		masProbable = 100 - Math.max(arrayComportamientoAcutal[0], arrayComportamientoAcutal[1]);
+		masProbable = 100 - Math.max(arrayComportamientoActual[0], arrayComportamientoActual[1]);
 		
 		//Se obtiene la accion menos probable a tomar por ejemplo un 10%
-		menosProbable = 100 - Math.min(arrayComportamientoAcutal[0], arrayComportamientoAcutal[1]);
+		menosProbable = 100 - Math.min(arrayComportamientoActual[0], arrayComportamientoActual[1]);
 
 		
 		/*
@@ -61,9 +59,9 @@ public class Robot implements Genetico {
 		 */
 		if(numeroRandom >= menosProbable) {
 			//Obtener el siguiente comportamiento segun su estado actual
-			comportamiento.getNextComportamiento(menosProbable, comportamiento.avanzar);
+			comportamiento.getNextComportamiento(100 - menosProbable, arrayComportamientoActual);
 		}else {
-			comportamiento.getNextComportamiento(masProbable, comportamiento.avanzar);
+			comportamiento.getNextComportamiento(100 - masProbable, arrayComportamientoActual);
 		}
 	}
 	
@@ -90,11 +88,13 @@ public class Robot implements Genetico {
 			direccionesMap.put(i, new ArrayList<Direccion>());
 			costeEnergeticoBloque = 0;
 			for (int j = 0; j < distanciaVisualizacion; j++) {//Cantidad de distancia que puede ver el robot
-					
+				
 				posicionRevisada = posicionRevisada.Mover(i);
+				
 				puedeInteractuar = RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor);
 					//Revisar si el motor es igual o mayor al coste de pasar por el bloque
 				if (puedeInteractuar){
+					
 					direccionesMap.get(i).add(posicionRevisada.Copy()); //Agregar la direccion que se puede recorrer
 					costeEnergeticoBloque += terreno[posicionRevisada.x][posicionRevisada.y].consumo;
 				}else {
@@ -111,13 +111,19 @@ public class Robot implements Genetico {
 			indiceListaOptima = 0;
 		//Revisar en todas las direcciones disponibles 
 		for (int i = 0; i < direccionesMap.size(); i++) {		
-			if(tamannosMap.get(i) > tamannoMaximo && costesDireccionesMap.get(i) < costeMinimo) {
+			if(tamannosMap.get(i) > tamannoMaximo & costesDireccionesMap.get(i) < costeMinimo) {
 				tamannoMaximo = tamannosMap.get(i);
 				costeMinimo = costesDireccionesMap.get(i);
 				indiceListaOptima = i;
 			}
 		}
 		this.direcciones = direccionesMap.get(indiceListaOptima);
+		System.out.print(comportamiento.estado+"<-> "+distanciaVisualizacion);	
+		System.out.print("<-> "+this.posicion.x +", "+this.posicion.y+":");
+		for (Direccion direccion : this.direcciones) {
+			System.out.print("["+direccion.x+","+direccion.y+"]");
+		}
+		System.out.println(" ");
 	}
 
 	private void Avanzar() {
@@ -133,7 +139,7 @@ public class Robot implements Genetico {
 			this.posicion = direcciones.remove(0);
 		}else {
 			Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
-			for(int i = 3; i <= 0; i--){// Ciclo que busca una direccion que cumpla para moverse
+			for(int i = 3; i >= 0; i--){// Ciclo que busca una direccion que cumpla para moverse
 				Direccion posicionRevisada = this.posicion.Mover(i);
 				if(RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor)) {
 					this.posicion = posicionRevisada;
@@ -142,8 +148,10 @@ public class Robot implements Genetico {
 				}
 			}
 		}
+		
 			
 	}
+	
 	private boolean RevisarDesplazamiento(Direccion pPosicion, Bloque[][] terreno, Hardware hardware){
 		/*Este metodo revisa el desplazamiento de una direccion con x & y no salga del terreno de tamanno definido 
 		 * por el tamanno del terreno.
@@ -156,11 +164,11 @@ public class Robot implements Genetico {
 		 * AVANZADO		DIFICIL, MODERADO, NORMAL
 		 * BLOQUEADO	null
 		 * */
-		Hardware resultado = Hardware.AVANZADO;
+		Hardware resultado = Hardware.BASICO;
 		int indiceMinimo = 0,
 			indiceMaximo = terreno.length;//Se supone una matriz cuadrada
-		if(pPosicion.x >= indiceMaximo || pPosicion.y >= indiceMaximo
-				|| pPosicion.x < indiceMinimo || pPosicion.y < indiceMinimo) {
+		if(pPosicion.x >= indiceMaximo | pPosicion.y >= indiceMaximo
+				| pPosicion.x < indiceMinimo | pPosicion.y < indiceMinimo) {
 				return false; //Si se sale del terreno no seguir revisando el camino
 			}
 			//Para hacer la asociacion de tipo de hardware a tipo de bloque se debe revisar

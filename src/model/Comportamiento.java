@@ -13,7 +13,7 @@ public class Comportamiento implements Genetico {
 	public Comportamiento() {
 		
 		avanzar = new int[]{50, 50};// -> MOTOR
-		observar = new int[]{20, 80};// -> MAL MOTOR PERO CON BUENA CAMARA
+		observar = new int[]{50, 50};// -> MAL MOTOR PERO CON BUENA CAMARA
 		estado = Estado.OBSERVANDO;
 	}
 	

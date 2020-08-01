@@ -5,10 +5,11 @@ public class Simulacion {
 	private Terreno terreno;
 	static Simulacion self;
 	
-	public Simulacion() {
-		poblacion = poblacion.getInstance();
+	public Simulacion(){
+		poblacion = Poblacion.getInstance();
 		poblacion.CrearGeneracionInicial();	
 		terreno = new Terreno();
+		
 	}
 	
 	public static Simulacion getInstance() {
@@ -24,4 +25,5 @@ public class Simulacion {
 	public void setTerreno(Terreno terreno) {
 		this.terreno = terreno;
 	}
+	
 }

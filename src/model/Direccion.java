@@ -4,7 +4,8 @@ public enum Direccion {
 	ARRIBA(-1,0),
 	ABAJO(1,0),
 	DERECHA(0,1),
-	IZQUIERDA(0,-1);
+	IZQUIERDA(0,-1),
+	POSICION(0,0);
 	
 	public int x;
 	public int y;
@@ -51,7 +52,7 @@ public enum Direccion {
 		return resultado;
 	}
 	Direccion Copy() {
-		Direccion copia = ABAJO;
+		Direccion copia = POSICION;
 		copia.x = this.x;
 		copia.y = this.y;
 		return copia;
