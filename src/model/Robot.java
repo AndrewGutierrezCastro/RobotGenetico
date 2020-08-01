@@ -94,7 +94,7 @@ public class Robot implements Genetico {
 				puedeInteractuar = RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor);
 					//Revisar si el motor es igual o mayor al coste de pasar por el bloque
 				if (puedeInteractuar){
-					
+					//TODO continuar pruebas
 					direccionesMap.get(i).add(posicionRevisada.Copy()); //Agregar la direccion que se puede recorrer
 					costeEnergeticoBloque += terreno[posicionRevisada.x][posicionRevisada.y].consumo;
 				}else {
