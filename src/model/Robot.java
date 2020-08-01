@@ -30,7 +30,7 @@ public class Robot implements Genetico {
 		int menosProbable = 100,
 			masProbable = 0,
 			numeroRandom = rand.nextInt(100);
-		int[] arrayComportamientoAcutal= new int[3];
+		int[] arrayComportamientoAcutal= new int[2];
 		switch (comportamiento.estado) {
 		case AVANZANDO:
 			Avanzar();
@@ -184,76 +184,10 @@ public class Robot implements Genetico {
 			}
 		return false;
 	}
-	
-	private void comportamientoBasadoHardware() {
-//		switch(caracteristicas.Motor) {
-//			case BASICO:
-//				comportamiento.avanzar[0] = comportamiento.avanzar[0]-20;
-//				comportamiento.avanzar[1] = comportamiento.avanzar[1]+20;
-//				comportamiento.esperar[1] = comportamiento.esperar[1]-20;
-//				comportamiento.esperar[2] = comportamiento.esperar[2]+20;
-//				comportamiento.observar[1] = comportamiento.observar[1]-20;
-//				comportamiento.observar[2] = comportamiento.observar[2]+20;
-//				break;
-//			case AVANZADO:
-//				comportamiento.avanzar[0] = comportamiento.avanzar[0]+20;
-//				comportamiento.avanzar[1] = comportamiento.avanzar[1]-20;
-//				comportamiento.esperar[1] = comportamiento.esperar[1]+20;
-//				comportamiento.esperar[2] = comportamiento.esperar[2]-20;
-//				comportamiento.observar[1] = comportamiento.observar[1]+20;
-//				comportamiento.observar[2] = comportamiento.observar[2]-20;
-//				break;
-//			case MEDIO:
-//				break;
-//		}
-//		switch(caracteristicas.Bateria) {
-//			case MEDIO:
-//				comportamiento.avanzar[0] = comportamiento.avanzar[0]+15;
-//				comportamiento.avanzar[1] = comportamiento.avanzar[1]-15;
-//				comportamiento.esperar[1] = comportamiento.esperar[1]+15;
-//				comportamiento.esperar[2] = comportamiento.esperar[2]-15;
-//				comportamiento.observar[1] = comportamiento.observar[1]+15;
-//				comportamiento.observar[2] = comportamiento.observar[2]-15;
-//				break;
-//			case AVANZADO:
-//				comportamiento.avanzar[0] = comportamiento.avanzar[0]+30;
-//				comportamiento.avanzar[1] = comportamiento.avanzar[1]-30;
-//				comportamiento.esperar[1] = comportamiento.esperar[1]+30;
-//				comportamiento.esperar[2] = comportamiento.esperar[2]-30;
-//				comportamiento.observar[1] = comportamiento.observar[1]+30;
-//				comportamiento.observar[2] = comportamiento.observar[2]-30;
-//				break;
-//			case BASICO:
-//				break;
-//		}
-//		switch(caracteristicas.Camara) {
-//			case BASICO:
-//				comportamiento.avanzar[0] = comportamiento.avanzar[0]+15;
-//				comportamiento.avanzar[1] = comportamiento.avanzar[1]-15;
-//				comportamiento.esperar[1] = comportamiento.esperar[1]+15;
-//				comportamiento.esperar[2] = comportamiento.esperar[2]-15;
-//				comportamiento.observar[1] = comportamiento.observar[1]+15;
-//				comportamiento.observar[2] = comportamiento.observar[2]-15;
-//				break;
-//			case AVANZADO:
-//				comportamiento.avanzar[0] = comportamiento.avanzar[0]-30;
-//				comportamiento.avanzar[1] = comportamiento.avanzar[1]+30;
-//				comportamiento.esperar[1] = comportamiento.esperar[1]-30;
-//				comportamiento.esperar[2] = comportamiento.esperar[2]+30;
-//				comportamiento.observar[1] = comportamiento.observar[1]-30;
-//				comportamiento.observar[2] = comportamiento.observar[2]+30;
-//				break;
-//			case MEDIO:
-//				break;
-//		}
-//		comportamiento.verificarProba();
-//		
-	}
 
 	@Override	
 	public void Definir() {
 		caracteristicas.Definir();
-		//comportamientoBasadoHardware();
 		comportamiento.Definir();
 		lblRobot = new JLabel();
 	}

@@ -21,7 +21,7 @@ public class VPrincipalController extends ViewController{
 		ventana = new VentanaPrincipal();
 		ventana.setController(this);
 		terreno = Simulacion.getInstance().getTerreno();
-		poblacion = Simulacion.getInstance().getPoblacion();
+		poblacion = Poblacion.getInstance();
 	}
 
 	public void cargarTerrenoGUI() {

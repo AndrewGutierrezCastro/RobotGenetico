@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 public class Comportamiento implements Genetico {
-	public int[] avanzar; // 0: asi mismo,  2:observar
-	public int[] observar;// 0: asi mismo,  1:avanzar 
+	public int[] avanzar; // 0: asi mismo,2:observar
+	public int[] observar;// 0: asi mismo,2:esperar
 	public Estado estado;
 	
 	public Comportamiento() {
 		
-		avanzar = new int[]{50, 50, 0};// -> MOTOR
-		observar = new int[]{0, 80, 20};// -> MAL MOTOR PERO CON BUENA CAMARA
-		estado = Estado.ESPERANDO;
+		avanzar = new int[]{50, 50};// -> MOTOR
+		observar = new int[]{20, 80};// -> MAL MOTOR PERO CON BUENA CAMARA
+		estado = Estado.OBSERVANDO;
 	}
 	
 	public void getNextComportamiento(int valor, int[] comportamientoActual) {
@@ -56,24 +56,18 @@ public class Comportamiento implements Genetico {
 	}
 	
 	public void verificarProba() {
-//		if(avanzar[0]<=0){
-//			avanzar[0]=10;
-//			avanzar[1]=90;}
-//		if(avanzar[1]<=0){
-//			avanzar[1]=10;
-//			avanzar[0]=90;}
-//		if(esperar[1]<=0){
-//			esperar[1]=10;
-//			esperar[2]=90;}
-//		if(esperar[2]<=0){
-//			esperar[2]=10;
-//			esperar[1]=90;}
-//		if(observar[1]<=0){
-//			observar[1]=10;
-//			observar[2]=90;}
-//		if(observar[2]<=0){
-//			observar[2]=10;
-//			observar[1]=90;}
+		if(avanzar[0]<=0){
+			avanzar[0]=10;
+			avanzar[1]=90;}
+		if(avanzar[1]<=0){
+			avanzar[1]=10;
+			avanzar[0]=90;}
+		if(observar[0]<=0){
+			observar[0]=10;
+			observar[1]=90;}
+		if(observar[1]<=0){
+			observar[1]=10;
+			observar[0]=90;}
 	}
 
 	public void Cruce(Object obj) {

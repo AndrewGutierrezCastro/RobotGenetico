@@ -3,13 +3,19 @@ package model;
 import java.util.HashMap;
 
 public class Poblacion {
+	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
-	public final int SizePoblacion = 10;
+	public final int SizePoblacion = 5;
 	
-	public Poblacion() {
+	private Poblacion() {
 		Generacion = new HashMap<Integer, Generacion>();
 	}
 
+	public static Poblacion getInstance() {
+		if (self == null)  
+			self = new Poblacion(); 
+        return self;
+	}
 
 
 	public void CrearGeneracionInicial() {

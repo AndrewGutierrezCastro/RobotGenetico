@@ -1,5 +1,5 @@
 package model;
 
 public enum Estado {
-	ESPERANDO, OBSERVANDO, AVANZANDO
+	OBSERVANDO, AVANZANDO
 }
