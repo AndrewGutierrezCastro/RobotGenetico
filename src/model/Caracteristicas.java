@@ -23,7 +23,7 @@ public class Caracteristicas implements Genetico {
 	}
 	@Override
 	public void Definir() {
-		Random rand = new Random();
+		Random rand = new Random(731341387);
 		int numeroRandom;
 		TiposHardware[] listaHardware = Hardware.TiposHardware.values();
 		

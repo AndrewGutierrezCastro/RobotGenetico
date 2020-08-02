@@ -43,7 +43,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 				System.out.println("Corriendo");
 				ComportarPoblacion();
 				refresh();
-				HiloGeneral.sleep(500);
+				HiloGeneral.sleep(50);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

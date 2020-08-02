@@ -6,15 +6,15 @@ import java.util.List;
 import java.util.Random;
 
 public class Comportamiento implements Genetico {
-	public int[] avanzar; // 0: asi mismo,2:observar
-	public int[] observar;// 0: asi mismo,2:esperar
+	public int[] avanzar; // 0: asi mismo,1:observar
+	public int[] observar;// 0: asi mismo,1:esperar
 	public Estado estado;
 	
 	public Comportamiento() {
-		
-		avanzar = new int[]{50, 50};// -> MOTOR
-		observar = new int[]{50, 50};// -> MAL MOTOR PERO CON BUENA CAMARA
+		avanzar = new int[2];
+		observar = new int[2];
 		estado = Estado.OBSERVANDO;
+		Definir();
 	}
 	
 	public void getNextComportamiento(int valor, int[] comportamientoActual) {
@@ -45,13 +45,12 @@ public class Comportamiento implements Genetico {
 	
 	public void Definir() {
 		Random rand = new Random();
-		rand.setSeed(12134315);
 		
 		avanzar[0] = rand.nextInt(100);// 0 - 100 = 45
 		observar[0] = rand.nextInt(100);
 		
-		avanzar[1] = rand.nextInt(100 - avanzar[0]);// 100 - 45 = 55
-		observar[1] = rand.nextInt(100 - observar[0]);
+		avanzar[1] = 100 - avanzar[0];// 100 - 45 = 55
+		observar[1] = 100 - observar[0];
 		
 	}
 	
@@ -74,6 +73,7 @@ public class Comportamiento implements Genetico {
 		//TODO hacer el cruce de comportamiento con otro comportamiento
 		Comportamiento comportamiento = (Comportamiento) obj;
 	}
+	
 	public void Mutar() {
 		//TODO llamar este metodo luego de la creacion para mutar
 	}

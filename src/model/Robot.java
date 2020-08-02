@@ -10,6 +10,7 @@ public class Robot implements Genetico {
 	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
 	private Caracteristicas caracteristicas;//algoritmo genetico
 	private int valorAptitud; //basado de 0 a 100
+	
 	public Posicion posicion;
 	public JLabel lblRobot;
 	private ArrayList<Posicion> direcciones;
@@ -64,8 +65,6 @@ public class Robot implements Genetico {
 			}else {
 				comportamiento.getNextComportamiento(100 - masProbable, arrayComportamientoActual);
 			}
-		}else {
-			System.out.println(this.toString()+ " sin energia.");
 		}
 	}
 
@@ -114,7 +113,7 @@ public class Robot implements Genetico {
 			indiceListaOptima = 0;
 		//Revisar en todas las direcciones disponibles 
 		for (int i = 0; i < direccionesMap.size(); i++) {		
-			if(costesDireccionesMap.get(i) < costeMinimo | tamannosMap.get(i) > tamannoMaximo) {
+			if(costesDireccionesMap.get(i) < costeMinimo & tamannosMap.get(i) > tamannoMaximo) {
 				tamannoMaximo = tamannosMap.get(i);
 				costeMinimo = costesDireccionesMap.get(i);
 				indiceListaOptima = i;
@@ -137,8 +136,9 @@ public class Robot implements Genetico {
 			setPosicion(direcciones.remove(0));
 		}else {
 			Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
-			for(int i = 3; i >= 0; i--){// Ciclo que busca una direccion que cumpla para moverse
-				Posicion posicionRevisada = this.posicion.Mover(i);
+			for(int i = 0; i < 10; i++){// Ciclo que busca una direccion que cumpla para moverse
+				int numeroRandom = rand.nextInt(4) ;
+				Posicion posicionRevisada = this.posicion.Mover( numeroRandom );
 				if(RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor)) {
 					setPosicion(posicionRevisada);
 					break; //Salir si encuentra una posicion que no se salga del rango del terreno
@@ -159,7 +159,7 @@ public class Robot implements Genetico {
 			costeEnergico = Simulacion.getInstance().getTerreno().terreno[posicion.x][posicion.y].consumo;
 			break;
 		case OBSERVANDO:
-			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 20;
+			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 40;
 			break;
 		default:
 			break;
@@ -202,10 +202,7 @@ public class Robot implements Genetico {
 			case BLOQUEADO:
 				return false;
 			}
-			if (resultado != null && resultado.getEnergia() <= hardware.getEnergia()){
-				return true;
-			}
-		return false;
+			return resultado.getEnergia() <= hardware.getEnergia();
 	}
 	
 	private void setPosicion(Posicion pDireccion) {
@@ -244,5 +241,14 @@ public class Robot implements Genetico {
 				.forEach((R)-> R.Mutar());
 		
 	}
+
+	
+	@Override
+	public String toString() {
+		String toString = "C:"+caracteristicas.Camara.getName()+" M:"+caracteristicas.Motor.getName()+"\n";
+		toString += "x:"+this.posicion.x +" y:"+this.posicion.y+" Alive:"+isAlive();
+		return toString;
+	}
+	
 	
 }

@@ -34,16 +34,16 @@ public	class Posicion{
 		Posicion resultado = Copy();
 		switch (direccion) {
 		case 0:
-			resultado.SUBIR();
+			resultado.DESPLAZARSEIZQ();
 			break;
 		case 1:
 			resultado.BAJAR();
 			break;
-		case 2:
-			resultado.DESPLAZARSEIZQ();
-			break;
-		case 3:
+		case 2:		
 			resultado.DESPLAZARDER();
+			break;
+		case 3:		
+			resultado.SUBIR();
 			break;
 		default:
 			break;
@@ -65,6 +65,11 @@ public	class Posicion{
 	}
 	public void DESPLAZARDER() {
 		this.Sumar(Direccion.DERECHA);
+	}
+	public double distancia(Posicion posicion) {
+		double resultado = 0.0;
+		resultado = Math.sqrt(Math.pow((posicion.x - this.x),2) + Math.pow((posicion.y-this.y),2));
+		return  resultado;
 	}
 }
 
