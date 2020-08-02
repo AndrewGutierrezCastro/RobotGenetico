@@ -1,28 +1,44 @@
 package model;
 
-public enum Hardware {
+public class Hardware {
 	//Primero la energia que cuesta utilizarlo y luego costo
-	BASICO (0.30, 1000), 
-	MEDIO (0.60, 2000), 
-	AVANZADO (0.90, 3000);
+	enum TiposHardware{
+		/*
+		 *Enumerable para los tipos de hardware standard */
+		BASICO (0.30, 1000), 
+		MEDIO (0.60, 2000), 
+		AVANZADO (0.90, 3000);
+		
+		private double costo;
+		private double energia; //La energia se puede traducir a potencia para el motor
+								//La distancia que puede ver el robot = energia / 1000 y su gasto de uso energia / 20
+								//La capacidad de la bateria en mAh
+		TiposHardware(double pCosto, double pEnergia) {
+			costo = pCosto ;
+			energia = pEnergia;
+		}
+		public double getEnergia() { return energia;}
+		public double getCosto() { return costo; }
+		}
 	
-	private final double costo;
-	private final double energia;
-	private double diferencia = 0.01;
-	
-	Hardware(double pEnergia, double pCosto) {
-		costo = (pCosto*diferencia) + pCosto ;
-		energia = (pEnergia*diferencia) + pEnergia;
+	private double costo;
+	private double energia;
+	public Hardware(TiposHardware tipoHardware) {
+		super();
+		costo = tipoHardware.getCosto();
+		energia = tipoHardware.getEnergia();
 	}
-	public double energia() { return energia;}
-	public double costo() { return costo; }
-	
-	public double getDiferencia() {
-		return diferencia;
+	public double getCosto() {
+		return costo;
 	}
-	public void setDiferencia(double diferencia) {
-		this.diferencia = diferencia;
+	public void setCosto(double costo) {
+		this.costo = costo;
 	}
-	
+	public double getEnergia() {
+		return energia;
+	}
+	public void setEnergia(double energia) {
+		this.energia = energia;
+	}
 	
 }

@@ -9,83 +9,84 @@ import javax.swing.JLabel;
 public class Robot implements Genetico {
 	private Comportamiento comportamiento;
 	private Caracteristicas caracteristicas;
-	public Direccion posicion;
+	public Posicion posicion;
 	public JLabel lblRobot;
-	private ArrayList<Direccion> direcciones;
+	private ArrayList<Posicion> direcciones;
 	Random rand = new Random();
 	public Robot() {
 		comportamiento = new Comportamiento();
 		caracteristicas = new Caracteristicas();
-		direcciones = new ArrayList<Direccion>();
-		this.posicion = Direccion.POSICION;
-		this.posicion.x = 19;
-		this.posicion.y = 0;
+		direcciones = new ArrayList<Posicion>();
+		this.posicion = new Posicion();
 	}
 	
 	public void Comportarse() {
-		
-		int menosProbable = 100,
-			masProbable = 0,
-			numeroRandom = rand.nextInt(100);
-		int[] arrayComportamientoActual = new int[2];
-		switch (comportamiento.estado) {
-		case AVANZANDO:
-			Avanzar();
-			arrayComportamientoActual = comportamiento.avanzar;
-			break;
-		case OBSERVANDO:
-			Observar();
-			arrayComportamientoActual = comportamiento.observar;
-			break;
-		default:
-			break;
-		}
-		
-		//Se obtiene la accion mas probable a tomar por ejemplo un 50%
-		masProbable = 100 - Math.max(arrayComportamientoActual[0], arrayComportamientoActual[1]);
-		
-		//Se obtiene la accion menos probable a tomar por ejemplo un 10%
-		menosProbable = 100 - Math.min(arrayComportamientoActual[0], arrayComportamientoActual[1]);
-
-		
-		/*
-		 * Finalmente tendriamos 
-		 * masProbable = 50 
-		 * menosProbable = 90
-		 * 
-		 * La pregunta funciona: Si obtuvo una probabilidad de x
-		 * x  suficiente para tomar la probabilidad mas remota?
-		 * x  				........la probabilidad mas usual?  
-		 */
-		if(numeroRandom >= menosProbable) {
-			//Obtener el siguiente comportamiento segun su estado actual
-			comportamiento.getNextComportamiento(100 - menosProbable, arrayComportamientoActual);
+		if(isAlive()) {
+			int menosProbable = 100,
+				masProbable = 0,
+				numeroRandom = rand.nextInt(100);
+			int[] arrayComportamientoActual = new int[2];
+			switch (comportamiento.estado) {
+			case AVANZANDO:
+				Avanzar();
+				arrayComportamientoActual = comportamiento.avanzar;
+				break;
+			case OBSERVANDO:
+				Observar();
+				arrayComportamientoActual = comportamiento.observar;
+				break;
+			default:
+				break;
+			}
+			
+			//Se obtiene la accion mas probable a tomar por ejemplo un 50%
+			masProbable = 100 - Math.max(arrayComportamientoActual[0], arrayComportamientoActual[1]);
+			
+			//Se obtiene la accion menos probable a tomar por ejemplo un 10%
+			menosProbable = 100 - Math.min(arrayComportamientoActual[0], arrayComportamientoActual[1]);
+	
+			
+			/*
+			 * Finalmente tendriamos 
+			 * masProbable = 50 
+			 * menosProbable = 90
+			 * 
+			 * La pregunta funciona: Si obtuvo una probabilidad de x
+			 * x  suficiente para tomar la probabilidad mas remota?
+			 * x  				........la probabilidad mas usual?  
+			 */
+			if(numeroRandom >= menosProbable) {
+				//Obtener el siguiente comportamiento segun su estado actual
+				comportamiento.getNextComportamiento(100 - menosProbable, arrayComportamientoActual);
+			}else {
+				comportamiento.getNextComportamiento(100 - masProbable, arrayComportamientoActual);
+			}
 		}else {
-			comportamiento.getNextComportamiento(100 - masProbable, arrayComportamientoActual);
+			System.out.println(this.toString()+ " sin energia.");
 		}
 	}
-	
+
 	private void Observar() {
 		/*
 		 * Este metodo lo que hace es utilizar la camara para observar y determinar la mejor ruta
 		 * basandose en la suma del costo de atravesar los bloques.
 		 * Entre menos mejor.
 		 * */
-		Direccion posicionRevisada;
+		Posicion posicionRevisada;
 		Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
 		boolean puedeInteractuar;
 		int costeEnergeticoBloque,
-		distanciaVisualizacion = (int) this.caracteristicas.Camara.costo() / 1000;//Cantidad de distancia que puede ver el robot
+		distanciaVisualizacion = (int) this.caracteristicas.Camara.getEnergia() / 1000;//Cantidad de distancia que puede ver el robot
 		
-		HashMap<Integer, ArrayList<Direccion>> direccionesMap //Un HashMap para guardar las direcciones que ve la camara 
-				= new HashMap<Integer, ArrayList<Direccion>>();
+		HashMap<Integer, ArrayList<Posicion>> direccionesMap //Un HashMap para guardar las direcciones que ve la camara 
+				= new HashMap<Integer, ArrayList<Posicion>>();
 		HashMap<Integer, Integer> costesDireccionesMap 		//Otro HasMap para guardar el coste de pasar por las direcciones
 				= new HashMap<Integer, Integer>();			//que tiene el otro hash y su llave del otro HashMap
-		HashMap<Integer, Integer> tamannosMap 				//
+		HashMap<Integer, Integer> tamannosMap 				
 				= new HashMap<Integer, Integer>();
 		for (int i = 0; i < 4 ; i++) { // 4 Direcciones posibles
 			posicionRevisada = this.posicion.Copy();
-			direccionesMap.put(i, new ArrayList<Direccion>());
+			direccionesMap.put(i, new ArrayList<Posicion>());
 			costeEnergeticoBloque = 0;
 			for (int j = 0; j < distanciaVisualizacion; j++) {//Cantidad de distancia que puede ver el robot
 				
@@ -94,7 +95,6 @@ public class Robot implements Genetico {
 				puedeInteractuar = RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor);
 					//Revisar si el motor es igual o mayor al coste de pasar por el bloque
 				if (puedeInteractuar){
-					//TODO continuar pruebas
 					direccionesMap.get(i).add(posicionRevisada.Copy()); //Agregar la direccion que se puede recorrer
 					costeEnergeticoBloque += terreno[posicionRevisada.x][posicionRevisada.y].consumo;
 				}else {
@@ -111,19 +111,13 @@ public class Robot implements Genetico {
 			indiceListaOptima = 0;
 		//Revisar en todas las direcciones disponibles 
 		for (int i = 0; i < direccionesMap.size(); i++) {		
-			if(tamannosMap.get(i) > tamannoMaximo & costesDireccionesMap.get(i) < costeMinimo) {
+			if(costesDireccionesMap.get(i) < costeMinimo | tamannosMap.get(i) > tamannoMaximo) {
 				tamannoMaximo = tamannosMap.get(i);
 				costeMinimo = costesDireccionesMap.get(i);
 				indiceListaOptima = i;
 			}
 		}
 		this.direcciones = direccionesMap.get(indiceListaOptima);
-		System.out.print(comportamiento.estado+"<-> "+distanciaVisualizacion);	
-		System.out.print("<-> "+this.posicion.x +", "+this.posicion.y+":");
-		for (Direccion direccion : this.direcciones) {
-			System.out.print("["+direccion.x+","+direccion.y+"]");
-		}
-		System.out.println(" ");
 	}
 
 	private void Avanzar() {
@@ -135,24 +129,42 @@ public class Robot implements Genetico {
 		 * No tener direcciones en la lista de direcciones:
 		 * 			Toma una direccion que cumpla de primero en orden de direccion en cruz 
 		 * */
+		consumirEnergia();
 		if(direcciones.size() > 0) {
-			this.posicion = direcciones.remove(0);
+			setPosicion(direcciones.remove(0));
 		}else {
 			Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
 			for(int i = 3; i >= 0; i--){// Ciclo que busca una direccion que cumpla para moverse
-				Direccion posicionRevisada = this.posicion.Mover(i);
+				Posicion posicionRevisada = this.posicion.Mover(i);
 				if(RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor)) {
-					this.posicion = posicionRevisada;
+					setPosicion(posicionRevisada);
 					break; //Salir si encuentra una posicion que no se salga del rango del terreno
 						  // y la misma culpa la interaccion.
 				}
 			}
-		}
-		
-			
+		}			
 	}
-	
-	private boolean RevisarDesplazamiento(Direccion pPosicion, Bloque[][] terreno, Hardware hardware){
+
+	private void consumirEnergia() {
+		/*CONSUMIR ENERGIA
+		 * Este metodo consume energia segun el bloque donde esta actualmente el robot
+		 * por definicion el consumo de energia se hace al salir del bloque
+		 * */
+		int costeEnergico = 0;
+		switch (this.comportamiento.estado) {
+		case AVANZANDO:
+			costeEnergico = Simulacion.getInstance().getTerreno().terreno[posicion.x][posicion.y].consumo;
+			break;
+		case OBSERVANDO:
+			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 20;
+			break;
+		default:
+			break;
+		}	
+		caracteristicas.Bateria.setEnergia(caracteristicas.Bateria.getEnergia() - costeEnergico);
+	}
+
+	private boolean RevisarDesplazamiento(Posicion pPosicion, Bloque[][] terreno, Hardware hardware){
 		/*Este metodo revisa el desplazamiento de una direccion con x & y no salga del terreno de tamanno definido 
 		 * por el tamanno del terreno.
 		 * Retorna la true si la direccion del tipo de bloque deja interactuar el hardware enviado como parametro 
@@ -164,7 +176,7 @@ public class Robot implements Genetico {
 		 * AVANZADO		DIFICIL, MODERADO, NORMAL
 		 * BLOQUEADO	null
 		 * */
-		Hardware resultado = Hardware.BASICO;
+		Hardware.TiposHardware resultado = Hardware.TiposHardware.BASICO;
 		int indiceMinimo = 0,
 			indiceMaximo = terreno.length;//Se supone una matriz cuadrada
 		if(pPosicion.x >= indiceMaximo | pPosicion.y >= indiceMaximo
@@ -176,24 +188,40 @@ public class Robot implements Genetico {
 			Bloque bloqueActual = terreno[pPosicion.x][pPosicion.y];
 			switch (bloqueActual) {
 			case NORMAL:
-				resultado = Hardware.BASICO;
+				resultado = Hardware.TiposHardware.BASICO;
 				break;
 			case MODERADO:
-				resultado = Hardware.MEDIO;
+				resultado = Hardware.TiposHardware.MEDIO;
 				break;
 			case DIFICIL:
-				resultado = Hardware.AVANZADO;	
+				resultado = Hardware.TiposHardware.AVANZADO;	
 				break;
 			case BLOQUEADO:
 				return false;
 			}
-			if (resultado != null && resultado.energia() <= hardware.energia()){
+			if (resultado != null && resultado.getEnergia() <= hardware.getEnergia()){
 				return true;
 			}
 		return false;
 	}
-
-	@Override	
+	
+	private void setPosicion(Posicion pDireccion) {
+		this.posicion = pDireccion;
+	}
+	
+	public Posicion getPosicion() {
+		return posicion;
+	}
+	
+	private boolean isAlive() {
+		/*Determina si el Robot puede continuar su funcionamiento
+		 * Vivo o muerto
+		 * */
+		return this.caracteristicas.Bateria.getEnergia() > 0;
+		
+	}
+	
+	@Override		
 	public void Definir() {
 		caracteristicas.Definir();
 		comportamiento.Definir();

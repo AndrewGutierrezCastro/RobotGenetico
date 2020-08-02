@@ -1,6 +1,8 @@
 package model;
 import java.util.Random;
 
+import model.Hardware.TiposHardware;
+
 public class Caracteristicas implements Genetico {
 	public Hardware Bateria;
 	public Hardware Camara;
@@ -23,14 +25,14 @@ public class Caracteristicas implements Genetico {
 	public void Definir() {
 		Random rand = new Random();
 		int numeroRandom;
-		Hardware[] listaHardware = Hardware.values();
+		TiposHardware[] listaHardware = Hardware.TiposHardware.values();
 		
 		numeroRandom = rand.nextInt(3);
-		this.Bateria = listaHardware[numeroRandom];
+		this.Bateria = new Hardware(listaHardware[numeroRandom]);
 		numeroRandom = rand.nextInt(3);
-		this.Camara = listaHardware[numeroRandom];
+		this.Camara = new Hardware(listaHardware[numeroRandom]);
 		numeroRandom = rand.nextInt(3);
-		this.Motor = listaHardware[numeroRandom];
+		this.Motor = new Hardware(listaHardware[numeroRandom]);
 
 	}
 	
