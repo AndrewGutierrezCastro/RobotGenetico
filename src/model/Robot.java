@@ -7,17 +7,20 @@ import java.util.stream.Stream;
 import javax.swing.JLabel;
 
 public class Robot implements Genetico {
-	private Comportamiento comportamiento;
-	private Caracteristicas caracteristicas;
+	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
+	private Caracteristicas caracteristicas;//algoritmo genetico
+	private int valorAptitud; //basado de 0 a 100
 	public Posicion posicion;
 	public JLabel lblRobot;
 	private ArrayList<Posicion> direcciones;
 	Random rand = new Random();
+	
 	public Robot() {
 		comportamiento = new Comportamiento();
 		caracteristicas = new Caracteristicas();
 		direcciones = new ArrayList<Posicion>();
-		this.posicion = new Posicion();
+		posicion = new Posicion();
+		valorAptitud = 0;
 	}
 	
 	public void Comportarse() {
