@@ -1,10 +1,12 @@
 package model;
+import java.util.Random;
 
 public class Generacion {
 	public Robot[] robots;
 	public Robot mejorRobotActual;
 	public Posicion objetivo;
 	public double distanciaMinima;
+	public int aptitudGeneral;
 	public Generacion(int size) {
 		robots = new Robot[size];
 		objetivo = new Posicion(0,19);
@@ -26,7 +28,17 @@ public class Generacion {
 				distanciaMinima = objetivo.distancia(robot.posicion);
 			}
 		}
-		System.out.println(mejorRobotActual.toString()+" Dist:"+distanciaMinima);
+		System.out.println(mejorRobotActual.toString()+"Dist:"+distanciaMinima);		
+	}
+	public void cruzar() {
+		float[] probabilidades = new float[robots.length+1];
+		probabilidades[0]=0;
+		for(int i=0; i<robots.length; i++) {
+			probabilidades[i+1]=(robots[i].valorAptitud/aptitudGeneral)*100;
+			if(i>0) {
+				probabilidades[i+1]=probabilidades[i+1]+probabilidades[i];
+			}
+		}
 		
 	}
 	

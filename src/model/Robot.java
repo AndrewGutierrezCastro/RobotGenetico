@@ -9,7 +9,7 @@ import javax.swing.JLabel;
 public class Robot implements Genetico {
 	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
 	private Caracteristicas caracteristicas;//algoritmo genetico
-	private int valorAptitud; //basado de 0 a 100
+	public int valorAptitud; //basado de 0 a 100
 	
 	public Posicion posicion;
 	public JLabel lblRobot;
