@@ -14,10 +14,14 @@ public class Generacion {
 	public void GeneracionAleatoria() {
 		for (int i = 0; i < robots.length; i++) {
 			robots[i] = new Robot();
-			robots[i].Definir();			
+			robots[i].Definir();
+			Random rand = new Random();//Temporal
+			robots[i].valorAptitud=rand.nextInt(50-1)+1; //valor de aptitud random temporal para pruebas
 		}
 		mejorRobotActual = robots[0];
 		distanciaMinima = Double.MAX_VALUE;
+		seleccionarElegidos();
+		
 	}
 	public void ComportarRobots() {
 	
@@ -30,16 +34,35 @@ public class Generacion {
 		}
 		System.out.println(mejorRobotActual.toString()+"Dist:"+distanciaMinima);		
 	}
-	public void cruzar() {
+	public void seleccionarElegidos() {
+
+		for(Robot rob : robots) {
+			this.aptitudGeneral=this.aptitudGeneral+rob.valorAptitud; //for temporal para pruebas
+		}
+		Robot[] robotsElegidos = new Robot[robots.length]; 
 		float[] probabilidades = new float[robots.length+1];
+		int numeroDeEleccion;
 		probabilidades[0]=0;
+		Random rand=new Random();
 		for(int i=0; i<robots.length; i++) {
-			probabilidades[i+1]=(robots[i].valorAptitud/aptitudGeneral)*100;
+			probabilidades[i+1]=((float)robots[i].valorAptitud/this.aptitudGeneral)*100;
 			if(i>0) {
 				probabilidades[i+1]=probabilidades[i+1]+probabilidades[i];
 			}
 		}
-		
+		for(int j=0; j<robots.length; j++) {
+			numeroDeEleccion=rand.nextInt(100-1)+1;
+			for(int k=1; k<robots.length; k++) {
+				if(probabilidades[k] >= numeroDeEleccion && probabilidades[k-1] <= numeroDeEleccion ){
+					robotsElegidos[j]=robots[k];
+					break;
+				}
+			}
+		}
 	}
-	
+	public void Cruzar(Robot[] robotsElegidos) {
+		for(int i=0; i < robotsElegidos.length; i=i+2) {
+			
+		}
+	}
 }
