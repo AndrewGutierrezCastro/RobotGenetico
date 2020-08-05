@@ -20,8 +20,7 @@ public class Generacion {
 		}
 		mejorRobotActual = robots[0];
 		distanciaMinima = Double.MAX_VALUE;
-		seleccionarElegidos();
-		
+		seleccionarElegidos();		
 	}
 	public void ComportarRobots() {
 	
@@ -59,10 +58,50 @@ public class Generacion {
 				}
 			}
 		}
+		Cruzar(robotsElegidos);
 	}
 	public void Cruzar(Robot[] robotsElegidos) {
+		Random rand = new Random();
+		int numOmitido;
 		for(int i=0; i < robotsElegidos.length; i=i+2) {
-			
+			System.out.println("********************************");
+			System.out.println(robotsElegidos[i].caracteristicas.Bateria.tipo);
+			System.out.println(robotsElegidos[i].caracteristicas.Motor.tipo);
+			System.out.println(robotsElegidos[i].caracteristicas.Bateria.tipo);
+
+			System.out.println(robotsElegidos[i+1].caracteristicas.Bateria.tipo);
+			System.out.println(robotsElegidos[i+1].caracteristicas.Motor.tipo);
+			System.out.println(robotsElegidos[i+1].caracteristicas.Camara.tipo);
+			numOmitido=rand.nextInt(3-0)+0;
+			for(int j=0; j<3; j++) {
+				if(numOmitido != j) {
+					switch(j) {
+						case 0:
+							Hardware bat = robotsElegidos[i].caracteristicas.Bateria;
+							robotsElegidos[i].caracteristicas.Bateria = robotsElegidos[i+1].caracteristicas.Bateria;
+							robotsElegidos[i+1].caracteristicas.Bateria = bat;
+							break;
+						case 1:
+							Hardware mot = robotsElegidos[i].caracteristicas.Motor;
+							robotsElegidos[i].caracteristicas.Motor = robotsElegidos[i+1].caracteristicas.Motor;
+							robotsElegidos[i+1].caracteristicas.Motor = mot;
+							break;
+						case 2:
+							Hardware cam = robotsElegidos[i].caracteristicas.Camara;
+							robotsElegidos[i].caracteristicas.Camara = robotsElegidos[i+1].caracteristicas.Camara;
+							robotsElegidos[i+1].caracteristicas.Camara = cam;
+							break;
+					}
+				}
+			}
+//			System.out.println("--------------------------------------------");
+//			System.out.println(robotsElegidos[i].caracteristicas.Bateria.tipo);
+//			System.out.println(robotsElegidos[i].caracteristicas.Motor.tipo);
+//			System.out.println(robotsElegidos[i].caracteristicas.Bateria.tipo);
+//
+//			System.out.println(robotsElegidos[i+1].caracteristicas.Bateria.tipo);
+//			System.out.println(robotsElegidos[i+1].caracteristicas.Motor.tipo);
+//			System.out.println(robotsElegidos[i+1].caracteristicas.Camara.tipo);
 		}
 	}
 }

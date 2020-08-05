@@ -23,7 +23,7 @@ public class Hardware {
 	
 	private double costo;
 	private double energia;
-	private TiposHardware tipo;
+	public TiposHardware tipo;
 	public Hardware(TiposHardware tipoHardware) {
 		super();
 		costo = tipoHardware.getCosto();
@@ -45,5 +45,4 @@ public class Hardware {
 	public String getName() {
 		return tipo.name();
 	}
-	
 }

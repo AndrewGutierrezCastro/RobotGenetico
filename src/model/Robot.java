@@ -7,8 +7,8 @@ import java.util.stream.Stream;
 import javax.swing.JLabel;
 
 public class Robot implements Genetico {
-	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
-	private Caracteristicas caracteristicas;//algoritmo genetico
+	public Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
+	public Caracteristicas caracteristicas;//algoritmo genetico
 	public int valorAptitud; //basado de 0 a 100
 	
 	public Posicion posicion;
