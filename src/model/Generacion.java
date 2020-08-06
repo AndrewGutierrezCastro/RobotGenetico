@@ -132,7 +132,7 @@ public class Generacion {
 	
 	@Override
 	public String toString() {
-		return "Generacion: "+ numeroGeneracion;
+		return "Generacion: "+ numeroGeneracion+1;
 	}
 
 	public void SetLblTerrenoRobots() {
