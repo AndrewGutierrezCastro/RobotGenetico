@@ -31,31 +31,34 @@ public class VPrincipalController extends ViewController implements Runnable{
 			HiloGeneral.start();
 		}else {
 			HiloGeneral.resume();
+			ComportarPoblacion();
 			System.out.println("Hilo reanudado");
 		}
 	}
 	
 	public void run() {
 		System.out.println("Hilo corriendo...");
-		while(HiloGeneral.isAlive()) {
-			
+		ComportarPoblacion();
+		while(HiloGeneral.isAlive()) {		
 			try {
-				System.out.println("Corriendo");
-				ComportarPoblacion();
 				refresh();
-				HiloGeneral.sleep(50);
+				HiloGeneral.sleep(200);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 	}
 	
 	private void ComportarPoblacion() {
+		//Realmente inicia los hilos de cada robot de la generacion actual
 		this.poblacion.ComportarGeneracion();
 	}
-
+	
+	private void PausaPoblacion() {
+		this.poblacion.PausaGeneracion();
+	}
 	public void Pause() {
+		PausaPoblacion();
 		if(!HiloGeneral.isInterrupted()) {
 			HiloGeneral.suspend();
 			System.out.println("Hilo suspendido");
@@ -121,19 +124,19 @@ public class VPrincipalController extends ViewController implements Runnable{
 	@Override
 	public void show() {
 		ventana.frame.setVisible(true);	
-		cargarTerrenoGUI(); 
-		crearMatrizPanel();
-		refresh();
+		initialize();
 	}
 	
 	public void refresh() {		
 		MostrarTerreno();
-		MostrarRobots();
 	}
 	
 	@Override
 	public void initialize() {
-		// TODO Auto-generated method stub
+		cargarTerrenoGUI(); 
+		crearMatrizPanel();
+		refresh();
+		Poblacion.getInstance().setLblTerreno(lblMatriz);
 		
 	}
 	
@@ -145,14 +148,12 @@ public class VPrincipalController extends ViewController implements Runnable{
 		this.poblacion = poblacion;
 	}
 	
-	private void MostrarRobots() {
-		int generacionActual = poblacion.Generacion.size() - 1;
-		Robot[] listaRobots = poblacion.Generacion.get(generacionActual).robots;
-		Icon imagen = Helpers.getImagen("Robot", ".png", ventana.pnlTerreno.getWidth(),	ventana.pnlTerreno.getHeight());
-		for (Robot robot : listaRobots) {
-			robot.lblRobot.setIcon(imagen);
-			lblMatriz[robot.posicion.x][robot.posicion.y].setIcon(robot.lblRobot.getIcon());
-		
-		}
+	public JLabel[][] getLblMatriz() {
+		return lblMatriz;
 	}
+
+	public void setLblMatriz(JLabel[][] lblMatriz) {
+		this.lblMatriz = lblMatriz;
+	}
+	
 }

@@ -3,7 +3,7 @@ import java.util.Random;
 
 import model.Hardware.TiposHardware;
 
-public class Caracteristicas implements Genetico {
+public class Caracteristicas extends Genetico {
 	public Hardware Bateria;
 	public Hardware Camara;
 	public Hardware Motor;

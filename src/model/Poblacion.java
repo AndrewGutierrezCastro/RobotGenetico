@@ -2,6 +2,8 @@ package model;
 
 import java.util.HashMap;
 
+import javax.swing.JLabel;
+
 public class Poblacion {
 	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
@@ -9,7 +11,7 @@ public class Poblacion {
 	public final double probabilidadMutacion = 0.2; //P(M) = 1 / SizePoblacion 
 													//La probabilidad que un individuo sea mutado
 	public final double maxSizePoblacion = SizePoblacion * probabilidadMutacion *10;
-	
+	private JLabel[][] lblTerreno;
 	private Poblacion() {
 		Generacion = new HashMap<Integer, Generacion>();
 	}
@@ -20,7 +22,6 @@ public class Poblacion {
         return self;
 	}
 
-
 	public void CrearGeneracionInicial() {
 		Generacion generacion = new Generacion(SizePoblacion);
 		generacion.GeneracionAleatoria();
@@ -29,6 +30,10 @@ public class Poblacion {
 
 	public void ComportarGeneracion() {
 		Generacion.get(Generacion.size() - 1).ComportarRobots();
+		
+	}
+	public void PausaGeneracion() {
+		Generacion.get(Generacion.size() - 1).PausaRobots();
 		
 	}
 	private void CrearNuevaGeneracion() {
@@ -41,4 +46,14 @@ public class Poblacion {
 		 * */
 		
 	}
+
+	public JLabel[][] getLblTerreno() {
+		return lblTerreno;
+	}
+
+	public void setLblTerreno(JLabel[][] lblTerreno) {
+		this.lblTerreno = lblTerreno;
+	}
+
+	
 }

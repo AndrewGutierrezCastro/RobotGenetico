@@ -25,7 +25,6 @@ import gui.VentanaInicio;
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		switch (e.getActionCommand()) {
 		case "btnIniciar":
 			App.getInstance().controllerMap.get("VPRINCIPALCONTROLLER").show();		

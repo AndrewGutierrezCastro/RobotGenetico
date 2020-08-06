@@ -37,7 +37,7 @@ public class VentanaPrincipal extends Ventana{
 		panel.setLayout(null);
 		
 		pnlTerreno = new JPanel();
-		pnlTerreno.setBounds(214, 11, 520, 609);
+		pnlTerreno.setBounds(214, 11, 520, 610);
 		panel.add(pnlTerreno);
 		pnlTerreno.setLayout(new MigLayout("", "[][][][][][][][][][][][][][][][][][][][]", "[][][][][][][][][][][][][][][][][][][][]"));
 		

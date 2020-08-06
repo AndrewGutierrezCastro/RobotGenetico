@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Comportamiento implements Genetico {
+public class Comportamiento extends Genetico {
 	public int[] avanzar; // 0: asi mismo,1:observar
 	public int[] observar;// 0: asi mismo,1:esperar
 	public Estado estado;

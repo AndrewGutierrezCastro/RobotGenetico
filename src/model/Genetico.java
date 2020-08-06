@@ -1,8 +1,8 @@
 package model;
 
-public interface Genetico {
+public abstract class Genetico {
 	
-	public void Definir();
-	public void Cruce(Object obj);
-	public void Mutar();
+	public abstract void Definir();
+	public abstract void Cruce(Object obj);
+	public abstract void Mutar();
 }

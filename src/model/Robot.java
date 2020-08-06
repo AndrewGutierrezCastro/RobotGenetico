@@ -4,15 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.stream.Stream;
+
+import javax.swing.Icon;
 import javax.swing.JLabel;
 
-public class Robot implements Genetico {
-	public Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
-	public Caracteristicas caracteristicas;//algoritmo genetico
-	public int valorAptitud; //basado de 0 a 100
-	
+import controller.Helpers;
+
+public class Robot extends Genetico implements Runnable{
+	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
+	private Caracteristicas caracteristicas;//algoritmo genetico
+	private int valorAptitud; //basado de 0 a 100
+	private JLabel[][] lblTerreno;
+	private Thread HiloRobot;
 	public Posicion posicion;
-	public JLabel lblRobot;
+	public Icon iconRobot;
 	private ArrayList<Posicion> direcciones;
 	Random rand = new Random();
 	
@@ -21,6 +26,8 @@ public class Robot implements Genetico {
 		caracteristicas = new Caracteristicas();
 		direcciones = new ArrayList<Posicion>();
 		posicion = new Posicion();
+		iconRobot = Helpers.getImagen("Robot", ".png", 520, 610);
+		HiloRobot = new Thread(this);
 		valorAptitud = 0;
 	}
 	
@@ -147,7 +154,27 @@ public class Robot implements Genetico {
 			}
 		}			
 	}
-
+	
+	@Override		
+	public void Definir() {
+		caracteristicas.Definir();
+		comportamiento.Definir();
+	}
+	
+	@Override
+	public void Cruce(Object obj) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void Mutar() {
+		Stream.of(comportamiento,
+				  caracteristicas)
+				.forEach((R)-> R.Mutar());
+		
+	}
+	
 	private void consumirEnergia() {
 		/*CONSUMIR ENERGIA
 		 * Este metodo consume energia segun el bloque donde esta actualmente el robot
@@ -205,14 +232,6 @@ public class Robot implements Genetico {
 			return resultado.getEnergia() <= hardware.getEnergia();
 	}
 	
-	private void setPosicion(Posicion pDireccion) {
-		this.posicion = pDireccion;
-	}
-	
-	public Posicion getPosicion() {
-		return posicion;
-	}
-	
 	private boolean isAlive() {
 		/*Determina si el Robot puede continuar su funcionamiento
 		 * Vivo o muerto
@@ -221,33 +240,94 @@ public class Robot implements Genetico {
 		
 	}
 	
-	@Override		
-	public void Definir() {
-		caracteristicas.Definir();
-		comportamiento.Definir();
-		lblRobot = new JLabel();
-	}
-	
-	@Override
-	public void Cruce(Object obj) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void Mutar() {
-		Stream.of(comportamiento,
-				  caracteristicas)
-				.forEach((R)-> R.Mutar());
-		
-	}
+	public void Start() {
+		/*Este metodo inicia los hilo si no estan 'vivos'
+		 * O los reanuda si estan pausados*/
 
+		if(!HiloRobot.isAlive()) {
+			HiloRobot.start();
+		}else {
+			HiloRobot.resume();
+		}
+	}
+	
+	public void run() {
+		/*Metodo que corre al darle Start() al hilo del robot*/
+		while(HiloRobot.isAlive()) {			
+			try {
+				HiloRobot.sleep(100);
+				Comportarse();
+				PintarseGUI();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void Pause() {
+		if(!HiloRobot.isInterrupted()) {
+			HiloRobot.suspend();
+		}else {
+			HiloRobot.stop();
+		}
+	}
+	
+	private void PintarseGUI() {
+		/*Este metodo imprime el icono del robot en GUI*/
+		lblTerreno[posicion.x][posicion.y].setIcon(this.iconRobot);
+	}
 	
 	@Override
 	public String toString() {
-		String toString = "C:"+caracteristicas.Camara.getName()+" M:"+caracteristicas.Motor.getName()+"\n";
-		toString += "x:"+this.posicion.x +" y:"+this.posicion.y+" Alive:"+isAlive();
+		/*Este metodo es el override del toString de object
+		 * Imprime el tipo de camara, motor, su posicion x&y y si continua con vida*/
+		
+		String toString = 
+				" Alive:" + isAlive() + "\n" +
+				"C:"+caracteristicas.Camara.getName()+
+				" M:"+caracteristicas.Motor.getName()+
+				" B:"+caracteristicas.Bateria.getName()+"\n";
+		toString += "x:" + this.posicion.x + " y:" + this.posicion.y ;
 		return toString;
+	}
+
+	
+	public Comportamiento getComportamiento() {
+		return comportamiento;
+	}
+
+	
+
+	public Caracteristicas getCaracteristicas() {
+		return caracteristicas;
+	}
+
+
+
+	public int getValorAptitud() {
+		return valorAptitud;
+	}
+	
+
+	public void setValorAptitud(int pValorAptitud) {
+		/*Este metodo setea el valor de aptitud del robot*/
+		this.valorAptitud = pValorAptitud;
+	}
+	
+	private void setPosicion(Posicion pDireccion) {
+		this.posicion = pDireccion;
+	}
+	
+	public Posicion getPosicion() {
+		return posicion;
+	}
+
+	
+	public void setTerreno(JLabel[][] pTerreno) {
+		/*Este metodo setea el terreno de lbl
+		 * para poder mostrarse en GUI*/
+		this.lblTerreno = pTerreno;
+		
 	}
 	
 	
