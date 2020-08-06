@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Random;
 
 public class Comportamiento extends Genetico implements Cloneable{
-	public int[] avanzar; // 0: asi mismo,1:observar
-	public int[] observar;// 0: asi mismo,1:esperar
+	public int[] avanzar; // 0: AVANZAR, 1:OBSERVAR, 2:ESPERAR
+	public int[] observar;// 0: AVANZAR, 1:OBSERVAR, 2:ESPERAR
 	public Estado estado;
 	
 	public Comportamiento() {

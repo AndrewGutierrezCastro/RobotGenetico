@@ -4,7 +4,11 @@ package controller;
 import java.awt.event.ActionEvent;
 import javax.swing.Icon;
 import javax.swing.JLabel;
+import javax.swing.event.ListSelectionEvent;
+import gui.ListGeneracionModel;
+import gui.ListRobotModel;
 import gui.VentanaPrincipal;
+import model.Generacion;
 import model.Poblacion;
 import model.Robot;
 import model.Simulacion;
@@ -57,6 +61,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 	private void PausaPoblacion() {
 		this.poblacion.PausaGeneracion();
 	}
+	
 	public void Pause() {
 		PausaPoblacion();
 		if(!HiloGeneral.isInterrupted()) {
@@ -106,14 +111,45 @@ public class VPrincipalController extends ViewController implements Runnable{
 		}
 	}
 	
+	private void MostrarGeneraciones() {	
+		ventana.cmbGeneracion.setModel(new ListGeneracionModel(poblacion.Generacion.values()));
+		ventana.cmbGeneracion.setSelectedIndex(0);
+	}
+	
+	private void MostrarRobots() {
+		Generacion generacionSeleccionada = (Generacion) ventana.cmbGeneracion.getSelectedItem();
+		if(generacionSeleccionada != null) {
+			Robot[] robotsGeneracionActual = generacionSeleccionada.robots;
+			ventana.lstRobots.setModel(new ListRobotModel(robotsGeneracionActual) );
+		}else {
+			System.out.println("Sin generacion seleccionada");
+		}
+	}
+	
+	@Override
+	public void valueChanged(ListSelectionEvent e) {
+		/* Este metodo el cambio de valor en las listas de la ventana
+		 * */
+		if (e.getSource().equals(ventana.lstRobots)) {
+			System.out.println("Lista Robots");
+		}else {
+			
+		}
+	} 
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "IniciarSimulacion":
+			MostrarGeneraciones();	
 			Start();
+			
 			break;
 		case "PausarSimulacion":
 			Pause();
+			break;
+		case "CmbGeneracion":
+			
 			break;
 		default:
 			break;
@@ -129,6 +165,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 	
 	public void refresh() {		
 		MostrarTerreno();
+		MostrarRobots();
 	}
 	
 	@Override

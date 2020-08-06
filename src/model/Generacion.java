@@ -4,15 +4,18 @@ import java.util.Random;
 import javax.swing.JLabel;
 
 public class Generacion {
+	public int numeroGeneracion;
 	public Robot[] robots;
 	public Robot mejorRobotActual;
 	public Posicion objetivo;
 	public double distanciaMinima;
 	public int aptitudGeneral;
-	public Generacion(int size) {
+	public Generacion(int size, int pNumeroGeneracion) {
 		robots = new Robot[size];
 		objetivo = new Posicion(0,19);
+		numeroGeneracion = pNumeroGeneracion;
 	}
+	
 	public void GeneracionAleatoria() {
 		/*Este metodo crea robots y los define llamando metodos
 		 * que setean valores aleatorios.
@@ -25,7 +28,7 @@ public class Generacion {
 		}								
 		mejorRobotActual = robots[0];
 		distanciaMinima = Double.MAX_VALUE;
-		seleccionarElegidos();		
+		//seleccionarElegidos();		
 	}
 	
 	public void ComportarRobots() {
@@ -38,6 +41,7 @@ public class Generacion {
 			robot.Start();
 		}		
 	}
+	
 	public void PausaRobots() {
 		for (Robot robot : robots) {
 			robot.Pause();
@@ -67,7 +71,7 @@ public class Generacion {
 		float[] probabilidades = new float[robots.length+1];
 		int numeroDeEleccion;
 		probabilidades[0] = 0;
-		Random rand = new Random();
+		Random rand;
 		for(int i=0; i<robots.length; i++) {
 			probabilidades[i+1] = ((float)robots[i].getValorAptitud() / this.aptitudGeneral) * 100;
 			if(i>0) {
@@ -75,6 +79,7 @@ public class Generacion {
 			}
 		}
 		for(int j=0; j<robots.length; j++) {
+			rand = new Random();
 			numeroDeEleccion = rand.nextInt(100);
 			for(int k=0; k<probabilidades.length; k++) {
 				if(probabilidades[k] >= numeroDeEleccion && probabilidades[k-1] <= numeroDeEleccion ){
@@ -124,12 +129,25 @@ public class Generacion {
 		}
 		
 	}
+	
+	@Override
+	public String toString() {
+		return "Generacion: "+ numeroGeneracion;
+	}
 
 	public void SetLblTerrenoRobots() {
 		JLabel[][] lblTerreno = Poblacion.getInstance().getLblTerreno();
 		for (Robot robot : robots) {
 			robot.setTerreno(lblTerreno);
 		}
+	}
+	
+	public int getNumeroGeneracion() {
+		return numeroGeneracion;
+	}
+	
+	public void setNumeroGeneracion(int numeroGeneracion) {
+		this.numeroGeneracion = numeroGeneracion;
 	}
 	
 }

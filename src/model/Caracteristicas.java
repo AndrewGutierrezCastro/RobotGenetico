@@ -33,14 +33,16 @@ public class Caracteristicas extends Genetico implements Cloneable {
 	
 	@Override
 	public void Definir() {
-		Random rand = new Random(731341387);
+		Random rand = new Random();
 		int numeroRandom;
 		TiposHardware[] listaHardware = Hardware.TiposHardware.values();
 		
 		numeroRandom = rand.nextInt(3);
 		this.Bateria = new Hardware(listaHardware[numeroRandom]);
+		rand = new Random(73187);
 		numeroRandom = rand.nextInt(3);
 		this.Camara = new Hardware(listaHardware[numeroRandom]);
+		rand = new Random(65135115);
 		numeroRandom = rand.nextInt(3);
 		this.Motor = new Hardware(listaHardware[numeroRandom]);
 

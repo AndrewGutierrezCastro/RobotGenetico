@@ -1,13 +1,12 @@
 package model;
 
 import java.util.HashMap;
-
 import javax.swing.JLabel;
 
 public class Poblacion {
 	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
-	public final int SizePoblacion = 10;
+	public final int SizePoblacion = 36;
 	public final double probabilidadMutacion = 0.2; //P(M) = 1 / SizePoblacion 
 													//La probabilidad que un individuo sea mutado
 	public final double maxSizePoblacion = SizePoblacion * probabilidadMutacion *10;
@@ -23,7 +22,7 @@ public class Poblacion {
 	}
 
 	public void CrearGeneracionInicial() {
-		Generacion generacion = new Generacion(SizePoblacion);
+		Generacion generacion = new Generacion(SizePoblacion, 0);
 		generacion.GeneracionAleatoria();
 		Generacion.put(0, generacion);
 	}

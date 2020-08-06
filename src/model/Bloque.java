@@ -10,6 +10,4 @@ public enum Bloque {
 	Bloque(int pConsumo) {
 		consumo = pConsumo;
 	}
-	
-	
 }

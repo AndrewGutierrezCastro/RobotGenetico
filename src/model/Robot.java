@@ -289,33 +289,28 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		/*Este metodo es el override del toString de object
 		 * Imprime el tipo de camara, motor, su posicion x&y y si continua con vida*/
 		
-		String toString = 
-				" Alive:" + isAlive() + "\n" +
-				"C:"+caracteristicas.Camara.getName()+
-				" M:"+caracteristicas.Motor.getName()+
-				" B:"+caracteristicas.Bateria.getName()+"\n";
-		toString += "x:" + this.posicion.x + " y:" + this.posicion.y ;
+		String toString = ("%7s%5b%7s%8s%4s%8s%5s%4d%5s%3d%4s%3d").formatted(
+				"Alive: ",isAlive(),
+				"C: ",caracteristicas.Camara.getName(),
+				"M: ",caracteristicas.Motor.getName(),
+				"B: ",((int)caracteristicas.Bateria.getEnergia()),
+				"X: " , this.posicion.x,
+				"Y: " , this.posicion.y );
 		return toString;
 	}
 
-	
 	public Comportamiento getComportamiento() {
 		return comportamiento;
 	}
-
 	
-
 	public Caracteristicas getCaracteristicas() {
 		return caracteristicas;
 	}
-
-
 
 	public int getValorAptitud() {
 		return valorAptitud;
 	}
 	
-
 	public void setValorAptitud(int pValorAptitud) {
 		/*Este metodo setea el valor de aptitud del robot*/
 		this.valorAptitud = pValorAptitud;
@@ -328,7 +323,6 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	public Posicion getPosicion() {
 		return posicion;
 	}
-
 	
 	public void setTerreno(JLabel[][] pTerreno) {
 		/*Este metodo setea el terreno de lbl
