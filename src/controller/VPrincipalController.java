@@ -130,8 +130,8 @@ public class VPrincipalController extends ViewController implements Runnable{
 	public void valueChanged(ListSelectionEvent e) {
 		/* Este metodo el cambio de valor en las listas de la ventana
 		 * */
-		if (e.getSource().equals(ventana.lstRobots)) {
-			System.out.println("Lista Robots");
+		if (e.getSource().equals(ventana.lstRobots) & ventana.lstRobots.getSelectedValue() != null) {
+			System.out.println(ventana.lstRobots.getSelectedValue());
 		}else {
 			
 		}

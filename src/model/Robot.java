@@ -191,7 +191,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		default:
 			break;
 		}	
-		caracteristicas.Bateria.setEnergia(caracteristicas.Bateria.getEnergia() - costeEnergico);
+		caracteristicas.Bateria.setEnergia(Math.abs(caracteristicas.Bateria.getEnergia() - costeEnergico));
 	}
 
 	private boolean RevisarDesplazamiento(Posicion pPosicion, Bloque[][] terreno, Hardware hardware){
