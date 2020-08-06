@@ -25,7 +25,7 @@ public class Generacion {
 		}								
 		mejorRobotActual = robots[0];
 		distanciaMinima = Double.MAX_VALUE;
-		//seleccionarElegidos();		
+		seleccionarElegidos();		
 	}
 	
 	public void ComportarRobots() {
@@ -78,7 +78,7 @@ public class Generacion {
 			numeroDeEleccion = rand.nextInt(100);
 			for(int k=1; k<robots.length; k++) {
 				if(probabilidades[k] >= numeroDeEleccion && probabilidades[k-1] <= numeroDeEleccion ){
-					robotsElegidos[j] = robots[k];
+					robotsElegidos[j] = robots[k].clone();
 					break;
 				}
 			}
@@ -90,10 +90,10 @@ public class Generacion {
 		Random rand = new Random();
 		int numOmitido;
 		for(int i = 0; i < robotsElegidos.length; i = i+2) {
-			System.out.println("********************************");
-			System.out.println(robotsElegidos[i].toString());
+			System.out.println("********************************"+i);
+			System.out.println(robotsElegidos[i]);
 
-			System.out.println(robotsElegidos[i+1].toString());
+			System.out.println(robotsElegidos[i+1]);
 
 			numOmitido = rand.nextInt(3);
 			for(int j=0; j<3; j++) {

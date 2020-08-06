@@ -1,6 +1,6 @@
 package model;
 
-public class Hardware {
+public class Hardware implements Cloneable{
 	//Primero la energia que cuesta utilizarlo y luego costo
 	enum TiposHardware{
 		/*
@@ -44,5 +44,8 @@ public class Hardware {
 	}
 	public String getName() {
 		return tipo.name();
+	}
+	public Hardware clone() {
+		return new Hardware(this.tipo);
 	}
 }

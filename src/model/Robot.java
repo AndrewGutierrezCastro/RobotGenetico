@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 
 import controller.Helpers;
 
-public class Robot extends Genetico implements Runnable{
+public class Robot extends Genetico implements Runnable, Cloneable{
 	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
 	private Caracteristicas caracteristicas;//algoritmo genetico
 	private int valorAptitud; //basado de 0 a 100
@@ -186,7 +186,7 @@ public class Robot extends Genetico implements Runnable{
 			costeEnergico = Simulacion.getInstance().getTerreno().terreno[posicion.x][posicion.y].consumo;
 			break;
 		case OBSERVANDO:
-			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 40;
+			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 80;
 			break;
 		default:
 			break;
@@ -238,6 +238,13 @@ public class Robot extends Genetico implements Runnable{
 		 * */
 		return this.caracteristicas.Bateria.getEnergia() > 0;
 		
+	}
+	
+	public Robot clone() {
+		Robot robotClonado = new Robot();
+		robotClonado.caracteristicas = this.caracteristicas.clone();
+		robotClonado.comportamiento = this.comportamiento.clone();
+		return robotClonado;
 	}
 	
 	public void Start() {

@@ -3,7 +3,7 @@ import java.util.Random;
 
 import model.Hardware.TiposHardware;
 
-public class Caracteristicas extends Genetico {
+public class Caracteristicas extends Genetico implements Cloneable {
 	public Hardware Bateria;
 	public Hardware Camara;
 	public Hardware Motor;
@@ -11,16 +11,26 @@ public class Caracteristicas extends Genetico {
 	public Caracteristicas() {
 		Definir();
 	}
-
+	
+	public Caracteristicas clone() {
+		Caracteristicas caracteristicas = new Caracteristicas();
+		caracteristicas.Bateria = this.Bateria.clone();
+		caracteristicas.Motor = this.Motor.clone();
+		caracteristicas.Camara = this.Camara.clone();
+		return caracteristicas;
+	}
+	
 	@Override
 	public void Cruce(Object obj) {
 		Caracteristicas caracteristicas = (Caracteristicas) obj;
 	}
+	
 	@Override
 	public void Mutar() {
 		// TODO Auto-generated method stub
 		
 	}
+	
 	@Override
 	public void Definir() {
 		Random rand = new Random(731341387);

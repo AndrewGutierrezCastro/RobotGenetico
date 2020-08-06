@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Comportamiento extends Genetico {
+public class Comportamiento extends Genetico implements Cloneable{
 	public int[] avanzar; // 0: asi mismo,1:observar
 	public int[] observar;// 0: asi mismo,1:esperar
 	public Estado estado;
@@ -52,6 +52,13 @@ public class Comportamiento extends Genetico {
 		avanzar[1] = 100 - avanzar[0];// 100 - 45 = 55
 		observar[1] = 100 - observar[0];
 		
+	}
+	
+	public Comportamiento clone() {
+		Comportamiento comportamientoClonado = new Comportamiento();
+		comportamientoClonado.avanzar = this.avanzar.clone();
+		comportamientoClonado.observar = this.observar.clone();
+		return comportamientoClonado;
 	}
 	
 	public void verificarProba() {
