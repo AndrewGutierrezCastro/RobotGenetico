@@ -11,6 +11,4 @@ public class ListRobotModel extends DefaultListModel<Robot> {
 	public ListRobotModel(Robot[] robots) {
 		this.addAll(List.from(robots));
 	}
-
-	
 }
