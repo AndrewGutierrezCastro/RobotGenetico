@@ -50,7 +50,7 @@ public class Generacion {
 	}
 	
 	public void getMejorRobot() {
-		/*Este metodod llama a toda la generacion de robots y los comporta
+		/*Este metodo llama a toda la generacion de robots y los comporta
 		 *Guarda al mejor robot de la generacion siendo el mas cercano al objetivo
 		 *ademas de la distancia que estuvo del objetivo.
 		 * */

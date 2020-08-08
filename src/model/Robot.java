@@ -330,6 +330,19 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		this.lblTerreno = pTerreno;
 		
 	}
+
+	public Object[] getInfo() {
+		/*Retorna un array de Object de:
+		 * Alive:true    Camara: MEDIO Motor: BASICO  Bateria: 3000  X:19 Y:0 */
+		Object[] objInfo = new Object []
+			{	isAlive(),
+				caracteristicas.Camara.getName(),
+				caracteristicas.Motor.getName(),
+				(int)caracteristicas.Bateria.getEnergia(),
+				posicion.x,
+				posicion.y};
+		return objInfo;
+	}
 	
 	
 }

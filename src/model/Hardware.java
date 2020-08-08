@@ -2,7 +2,7 @@ package model;
 
 public class Hardware implements Cloneable{
 	//Primero la energia que cuesta utilizarlo y luego costo
-	enum TiposHardware{
+	public enum TiposHardware{
 		/*
 		 *Enumerable para los tipos de hardware standard */
 		BASICO (0.30, 1000), 

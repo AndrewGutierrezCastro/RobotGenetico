@@ -6,7 +6,7 @@ import javax.swing.JLabel;
 public class Poblacion {
 	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
-	public final int SizePoblacion = 36;
+	public final int SizePoblacion = 10;
 	public final double probabilidadMutacion = 0.2; //P(M) = 1 / SizePoblacion 
 													//La probabilidad que un individuo sea mutado
 	public final double maxSizePoblacion = SizePoblacion * probabilidadMutacion *10;

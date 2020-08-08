@@ -1,17 +1,16 @@
 package gui;
 
+import java.awt.Component;
+
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JList;
 import javax.swing.JPanel;
-
+import javax.swing.JScrollPane;
 import controller.ViewController;
 import model.Generacion;
-import model.Robot;
 import net.miginfocom.swing.MigLayout;
-import javax.swing.JScrollPane;
 
 public class VentanaPrincipal extends Ventana{
 
@@ -22,7 +21,7 @@ public class VentanaPrincipal extends Ventana{
 	private JButton btnIniciarSimulacion;
 	private JButton btnPausaSimulacion;
 	public JComboBox<Generacion> cmbGeneracion;
-	public JList<Robot> lstRobots;
+	public JTable tblRobots;
 	/**
 	 * Create the application.
 	 */
@@ -66,8 +65,9 @@ public class VentanaPrincipal extends Ventana{
 		scrollPane.setBounds(20, 76, 380, 449);
 		panel.add(scrollPane);
 		
-		lstRobots = new JList<Robot>();
-		scrollPane.setViewportView(lstRobots);
+		tblRobots = new JTable();
+
+		scrollPane.setViewportView(tblRobots);
 		
 		
 	}
@@ -79,8 +79,8 @@ public class VentanaPrincipal extends Ventana{
 		
 		btnPausaSimulacion.addActionListener(controller);
 		btnPausaSimulacion.setActionCommand("PausarSimulacion");
-		
-		lstRobots.addListSelectionListener(controller);
+		tblRobots.setModel(new JTableModel());
+		tblRobots.getModel().addTableModelListener(controller);
 		
 		cmbGeneracion.addActionListener(controller);
 		cmbGeneracion.setActionCommand("CmbGeneracion");

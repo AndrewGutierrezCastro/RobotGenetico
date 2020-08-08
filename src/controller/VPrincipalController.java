@@ -5,6 +5,9 @@ import java.awt.event.ActionEvent;
 import javax.swing.Icon;
 import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
+
+import gui.JTableModel;
 import gui.ListGeneracionModel;
 import gui.ListRobotModel;
 import gui.VentanaPrincipal;
@@ -120,18 +123,19 @@ public class VPrincipalController extends ViewController implements Runnable{
 		Generacion generacionSeleccionada = (Generacion) ventana.cmbGeneracion.getSelectedItem();
 		if(generacionSeleccionada != null) {
 			Robot[] robotsGeneracionActual = generacionSeleccionada.robots;
-			ventana.lstRobots.setModel(new ListRobotModel(robotsGeneracionActual) );
+			ventana.tblRobots.setModel(new JTableModel(robotsGeneracionActual) );
+			ventana.tblRobots.AdjustColumnWidth();
 		}else {
 			System.out.println("Sin generacion seleccionada");
 		}
 	}
 	
 	@Override
-	public void valueChanged(ListSelectionEvent e) {
+	public void tableChanged(TableModelEvent e) {	
 		/* Este metodo el cambio de valor en las listas de la ventana
 		 * */
-		if (e.getSource().equals(ventana.lstRobots) & ventana.lstRobots.getSelectedValue() != null) {
-			System.out.println(ventana.lstRobots.getSelectedValue());
+		if (e.getSource().equals(ventana.tblRobots) & e.getFirstRow() != -1) {
+			System.out.println("Fila: " + e.getFirstRow());
 		}else {
 			
 		}

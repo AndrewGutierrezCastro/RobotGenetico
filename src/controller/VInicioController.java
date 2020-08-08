@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.TableModelEvent;
 
 import Application.App;
 import gui.VentanaInicio;
@@ -38,9 +39,10 @@ import gui.VentanaInicio;
 		}
 	}
 	@Override
-	public void valueChanged(ListSelectionEvent e) {
+	public void tableChanged(TableModelEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
-
 
 	
 	
