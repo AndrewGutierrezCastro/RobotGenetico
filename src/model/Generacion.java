@@ -16,6 +16,14 @@ public class Generacion {
 		numeroGeneracion = pNumeroGeneracion;
 	}
 	
+	
+	public Generacion(int numeroGeneracion, Robot[] robots) {
+		super();
+		this.numeroGeneracion = numeroGeneracion;
+		this.robots = robots;
+	}
+
+
 	public void GeneracionAleatoria() {
 		/*Este metodo crea robots y los define llamando metodos
 		 * que setean valores aleatorios.
@@ -62,7 +70,7 @@ public class Generacion {
 		}
 	}
 	
-	public void seleccionarElegidos() {
+	public Robot[] seleccionarElegidos() {
 
 		for(Robot robot : robots) {
 			this.aptitudGeneral = this.aptitudGeneral + robot.getValorAptitud(); //for temporal para pruebas
@@ -88,10 +96,10 @@ public class Generacion {
 				}
 			}
 		}
-		Cruzar(robotsElegidos);
+		return Cruzar(robotsElegidos);
 	}
 	
-	public void Cruzar(Robot[] robotsElegidos) {
+	public Robot[] Cruzar(Robot[] robotsElegidos) {
 		Random rand = new Random();
 		int numOmitido;
 		int numOmitido2;
@@ -169,7 +177,7 @@ public class Generacion {
 //			System.out.print(" ");
 //			System.out.println(robotsElegidos[i+1].getComportamiento().observar[1]);
 		}
-		Mutar(robotsElegidos);
+		return Mutar(robotsElegidos);
 	}
 	
 	public Robot[] Mutar(Robot[] robotsElegidos) {

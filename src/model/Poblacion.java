@@ -45,7 +45,9 @@ public class Poblacion {
 		 * Entre mas alto el valor de aptitud mayor probabilidad de seleccion del individuo.
 		 * Con los individuos seleccionados se hace el cruce para obtener la nueva generacion.
 		 * */
-		
+		Robot[] nuevaGen = Generacion.get(Generacion.size() - 1).seleccionarElegidos();
+		Generacion gen = new Generacion(Generacion.size(), nuevaGen);
+		Generacion.put(gen.getNumeroGeneracion(),gen);
 	}
 
 	public JLabel[][] getLblTerreno() {
