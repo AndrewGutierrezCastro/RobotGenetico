@@ -16,7 +16,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	private int valorAptitud; //basado de 0 a 100
 	private JLabel[][] lblTerreno;
 	private Thread HiloRobot;
-	public Posicion posicion;
+	public Posicion posicion, objetivo;
 	public Icon iconRobot;
 	private ArrayList<Posicion> direcciones;
 	Random rand = new Random();
@@ -26,12 +26,19 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		caracteristicas = new Caracteristicas();
 		direcciones = new ArrayList<Posicion>();
 		posicion = new Posicion();
-		iconRobot = Helpers.getImagen("Robot", ".png", 520, 610);
+		objetivo = new Posicion(0, 19);
+		iconRobot = Poblacion.getInstance().hashImagenes.get("ROBOT");
 		HiloRobot = new Thread(this);
-		valorAptitud = 0;
+		valorAptitud = Integer.MIN_VALUE;
 	}
 	
 	public void Comportarse() {
+		if( (27 - objetivo.distancia(this.posicion) ) > (27 - valorAptitud)) {
+			valorAptitud = (27 - (int) objetivo.distancia(this.posicion));
+			if(valorAptitud >= 25) {
+				this.caracteristicas.Bateria.setEnergia(0);
+			}
+		}
 		if(isAlive()) {
 			int menosProbable = 100,
 				masProbable = 0,
@@ -79,6 +86,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				int valorMedio = 100 -( (100-masProbable) + (100-masProbable));
 				comportamiento.getNextComportamiento(valorMedio, arrayComportamientoActual);
 			}
+			
 		}
 	}
 
@@ -128,7 +136,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			indiceListaOptima = 0;
 		//Revisar en todas las direcciones disponibles 
 		for (int i = 0; i < direccionesMap.size(); i++) {		
-			if(costesDireccionesMap.get(i) < costeMinimo & tamannosMap.get(i) > tamannoMaximo) {
+			if( tamannosMap.get(i) > tamannoMaximo | costesDireccionesMap.get(i) < costeMinimo ) {
 				tamannoMaximo = tamannosMap.get(i);
 				costeMinimo = costesDireccionesMap.get(i);
 				indiceListaOptima = i;
@@ -202,12 +210,12 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			costeEnergico = Simulacion.getInstance().getTerreno().terreno[posicion.x][posicion.y].consumo;
 			break;
 		case OBSERVANDO:
-			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 80;
+			costeEnergico =(int) (this.caracteristicas.Camara.getEnergia() - 1000) / 160;
 			break;
 		default:
 			break;
 		}	
-		caracteristicas.Bateria.setEnergia(Math.abs(caracteristicas.Bateria.getEnergia() - costeEnergico));
+		caracteristicas.Bateria.setEnergia(Math.max(caracteristicas.Bateria.getEnergia() - costeEnergico, 0));
 	}
 
 	private boolean RevisarDesplazamiento(Posicion pPosicion, Bloque[][] terreno, Hardware hardware){
@@ -248,7 +256,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			return resultado.getEnergia() <= hardware.getEnergia();
 	}
 	
-	private boolean isAlive() {
+	public boolean isAlive() {
 		/*Determina si el Robot puede continuar su funcionamiento
 		 * Vivo o muerto
 		 * */
@@ -260,6 +268,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		Robot robotClonado = new Robot();
 		robotClonado.caracteristicas = this.caracteristicas.clone();
 		robotClonado.comportamiento = this.comportamiento.clone();
+		
 		return robotClonado;
 	}
 	
@@ -278,7 +287,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		/*Metodo que corre al darle Start() al hilo del robot*/
 		while(HiloRobot.isAlive()) {			
 			try {
-				HiloRobot.sleep(100);
+				HiloRobot.sleep(50);
 				Comportarse();
 				PintarseGUI();
 			} catch (InterruptedException e) {

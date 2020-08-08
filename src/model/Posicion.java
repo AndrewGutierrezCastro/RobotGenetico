@@ -24,6 +24,8 @@ public	class Posicion{
 	}
 	public Posicion() {
 		super();
+		this.x = 19;
+		this.y = 0;
 	}
 	public Posicion Copy() {
 		Posicion copia = new Posicion(this.x, this.y);

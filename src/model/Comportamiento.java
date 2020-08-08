@@ -48,6 +48,7 @@ public class Comportamiento extends Genetico implements Cloneable{
 		Comportamiento comportamientoClonado = new Comportamiento();
 		comportamientoClonado.avanzar = this.avanzar.clone();
 		comportamientoClonado.observar = this.observar.clone();
+		comportamientoClonado.esperar = this.observar.clone();
 		return comportamientoClonado;
 	}
 	

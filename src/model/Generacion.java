@@ -15,14 +15,12 @@ public class Generacion {
 		objetivo = new Posicion(0,19);
 		numeroGeneracion = pNumeroGeneracion;
 	}
-	
-	
+		
 	public Generacion(int numeroGeneracion, Robot[] robots) {
 		super();
 		this.numeroGeneracion = numeroGeneracion;
 		this.robots = robots;
 	}
-
 
 	public void GeneracionAleatoria() {
 		/*Este metodo crea robots y los define llamando metodos
@@ -32,11 +30,9 @@ public class Generacion {
 			robots[i] = new Robot();
 			robots[i].Definir();
 			Random rand = new Random();//Temporal
-			robots[i].setValorAptitud(rand.nextInt(50)); //valor de aptitud random temporal para pruebas
 		}								
 		mejorRobotActual = robots[0];
-		distanciaMinima = Double.MAX_VALUE;
-		seleccionarElegidos();		
+		distanciaMinima = Double.MAX_VALUE;		
 	}
 	
 	public void ComportarRobots() {
@@ -68,6 +64,10 @@ public class Generacion {
 				distanciaMinima = objetivo.distancia(robot.posicion);
 			}
 		}
+	}
+	
+	private void Fitness() {
+		
 	}
 	
 	public Robot[] seleccionarElegidos() {
@@ -120,6 +120,7 @@ public class Generacion {
 //			System.out.print(robotsElegidos[i+1].getComportamiento().observar[0]);
 //			System.out.print(" ");
 //			System.out.println(robotsElegidos[i+1].getComportamiento().observar[1]);
+			try {
 			numOmitido = rand.nextInt(4);
 			numOmitido2 = rand.nextInt(4);
 			for(int j=0; j<3; j++) {
@@ -161,6 +162,10 @@ public class Generacion {
 					}
 				}
 			}
+		}catch (NullPointerException e){
+			
+			
+		}
 //			System.out.println("---------------------------------"+i);
 //			System.out.println(robotsElegidos[i].toString());
 //			System.out.print(robotsElegidos[i].getComportamiento().avanzar[0]);
@@ -194,7 +199,7 @@ public class Generacion {
 	
 	@Override
 	public String toString() {
-		return "Generacion: "+ numeroGeneracion+1;
+		return "Generacion: "+ (numeroGeneracion+1);
 	}
 
 	public void SetLblTerrenoRobots() {

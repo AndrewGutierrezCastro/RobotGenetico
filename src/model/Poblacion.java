@@ -1,18 +1,29 @@
 package model;
 
 import java.util.HashMap;
+
+import javax.swing.Icon;
 import javax.swing.JLabel;
+
+import controller.Helpers;
 
 public class Poblacion {
 	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
-	public final int SizePoblacion = 10;
-	public final double probabilidadMutacion = 0.2; //P(M) = 1 / SizePoblacion 
+	public HashMap<String, Icon> hashImagenes;
+	public final int SizePoblacion = 50;
+	public final double probabilidadMutacion = 0.3; //P(M) = 1 / SizePoblacion 
 													//La probabilidad que un individuo sea mutado
 	public final double maxSizePoblacion = SizePoblacion * probabilidadMutacion *10;
 	private JLabel[][] lblTerreno;
 	private Poblacion() {
 		Generacion = new HashMap<Integer, Generacion>();
+		hashImagenes = new HashMap<String, Icon>();
+		cargarImagenes();
+	}
+
+	private void cargarImagenes() {
+		hashImagenes.put("ROBOT", Helpers.getImagen("Robot", ".png", 520, 610));
 	}
 
 	public static Poblacion getInstance() {
@@ -37,7 +48,7 @@ public class Poblacion {
 		
 	}
 	
-	private void CrearNuevaGeneracion() {
+	public void CrearNuevaGeneracion() {
 		/* Definir el valor objetivo -> en nuestro caso es llegar a la casilla 0,19
 		 * y su valor de aptitud
 		 * Definir un valor de aptitud para cada robot, entre mas alto, el individuo es mejor
@@ -56,6 +67,18 @@ public class Poblacion {
 
 	public void setLblTerreno(JLabel[][] lblTerreno) {
 		this.lblTerreno = lblTerreno;
+	}
+
+	public boolean isAllDead() {
+		Robot[] robots = Generacion.get(Generacion.size() - 1).robots;
+		int numeroRobotsMuertos = 0;
+		for (Robot robot : robots) {
+			if(!robot.isAlive()) {
+				numeroRobotsMuertos++;
+			}
+		}
+		
+		return numeroRobotsMuertos >= (robots.length*0.75);
 	}
 
 	

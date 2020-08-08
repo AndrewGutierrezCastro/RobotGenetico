@@ -49,7 +49,13 @@ public class VPrincipalController extends ViewController implements Runnable{
 		while(HiloGeneral.isAlive()) {		
 			try {
 				refresh();
-				HiloGeneral.sleep(200);
+				HiloGeneral.sleep(100);
+				if(Poblacion.getInstance().isAllDead()) {
+					System.out.println("Antes");
+					procesoNuevaGeneracion();
+					System.out.println("Despues");
+					
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -58,11 +64,11 @@ public class VPrincipalController extends ViewController implements Runnable{
 	
 	private void ComportarPoblacion() {
 		//Realmente inicia los hilos de cada robot de la generacion actual
-		this.poblacion.ComportarGeneracion();
+		Poblacion.getInstance().ComportarGeneracion();
 	}
 	
 	private void PausaPoblacion() {
-		this.poblacion.PausaGeneracion();
+		Poblacion.getInstance().PausaGeneracion();
 	}
 	
 	public void Pause() {
@@ -115,8 +121,8 @@ public class VPrincipalController extends ViewController implements Runnable{
 	}
 	
 	private void MostrarGeneraciones() {	
-		ventana.cmbGeneracion.setModel(new ListGeneracionModel(poblacion.Generacion.values()));
-		ventana.cmbGeneracion.setSelectedIndex(0);
+		ventana.cmbGeneracion.setModel(new ListGeneracionModel(Poblacion.getInstance().Generacion.values()));	
+		ventana.cmbGeneracion.setSelectedIndex(Poblacion.getInstance().Generacion.size()-1);
 	}
 	
 	private void MostrarRobots() {
@@ -155,12 +161,24 @@ public class VPrincipalController extends ViewController implements Runnable{
 		case "CmbGeneracion":
 			
 			break;
+		case "CrearNuevaGeneracion":
+			procesoNuevaGeneracion();
+			break;
 		default:
 			break;
 		}
 		
 	}
-
+	
+	private void procesoNuevaGeneracion() {
+		//Pause();
+		PausaPoblacion();
+		System.out.println("Pause despues");
+		Poblacion.getInstance().CrearNuevaGeneracion();
+		MostrarGeneraciones();		
+		Start();
+	}
+	
 	@Override
 	public void show() {
 		ventana.frame.setVisible(true);	
@@ -179,14 +197,6 @@ public class VPrincipalController extends ViewController implements Runnable{
 		refresh();
 		Poblacion.getInstance().setLblTerreno(lblMatriz);
 		
-	}
-	
-	public Poblacion getPoblacion() {
-		return poblacion;
-	}
-	
-	public void setPoblacion(Poblacion poblacion) {
-		this.poblacion = poblacion;
 	}
 	
 	public JLabel[][] getLblMatriz() {

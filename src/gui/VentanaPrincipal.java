@@ -22,6 +22,7 @@ public class VentanaPrincipal extends Ventana{
 	private JButton btnPausaSimulacion;
 	public JComboBox<Generacion> cmbGeneracion;
 	public JTable tblRobots;
+	public JButton btnNuevaGeneracion;
 	/**
 	 * Create the application.
 	 */
@@ -69,6 +70,10 @@ public class VentanaPrincipal extends Ventana{
 
 		scrollPane.setViewportView(tblRobots);
 		
+		btnNuevaGeneracion = new JButton("Nueva Generacion");
+		btnNuevaGeneracion.setBounds(321, 607, 149, 23);
+		panel.add(btnNuevaGeneracion);
+		
 		
 	}
 	public void setController(ViewController pController) {
@@ -85,6 +90,7 @@ public class VentanaPrincipal extends Ventana{
 		cmbGeneracion.addActionListener(controller);
 		cmbGeneracion.setActionCommand("CmbGeneracion");
 		
-		
+		btnNuevaGeneracion.addActionListener(controller);
+		btnNuevaGeneracion.setActionCommand("CrearNuevaGeneracion");
 	}
 }

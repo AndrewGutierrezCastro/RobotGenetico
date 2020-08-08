@@ -46,6 +46,7 @@ public class Caracteristicas extends Genetico implements Cloneable {
 		rand = new Random();
 		numeroRandom = rand.nextInt(3);
 		this.Motor = new Hardware(listaHardware[numeroRandom]);
+		rand = new Random();
 		numeroRandom = rand.nextInt(3);
 		this.Generador = new Hardware(listaHardware[numeroRandom]);
 	}
