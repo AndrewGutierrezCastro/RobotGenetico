@@ -91,7 +91,7 @@ public class Generacion {
 		Cruzar(robotsElegidos);
 	}
 	
-	public Robot[] Cruzar(Robot[] robotsElegidos) {
+	public void Cruzar(Robot[] robotsElegidos) {
 		Random rand = new Random();
 		int numOmitido;
 		
@@ -111,7 +111,8 @@ public class Generacion {
 //			System.out.print(robotsElegidos[i+1].getComportamiento().observar[0]);
 //			System.out.print(" ");
 //			System.out.println(robotsElegidos[i+1].getComportamiento().observar[1]);
-			numOmitido = rand.nextInt(3);
+			numOmitido = rand.nextInt(4);
+			numOmitido = rand.nextInt(4);
 			for(int j=0; j<3; j++) {
 				if(numOmitido == j) {
 					int guarAvan;
@@ -132,13 +133,18 @@ public class Generacion {
 							robotsElegidos[i].getCaracteristicas().Camara = robotsElegidos[i+1].getCaracteristicas().Camara;
 							robotsElegidos[i+1].getCaracteristicas().Camara = camara;
 							break;
+						case 3:
+							Hardware generador = robotsElegidos[i].getCaracteristicas().Generador;
+							robotsElegidos[i].getCaracteristicas().Generador = robotsElegidos[i+1].getCaracteristicas().Camara;
+							robotsElegidos[i+1].getCaracteristicas().Generador = generador;
 					}
-					int [][] comportamientos = new int[8][4];
+					int [][] comportamientos = new int[6][3];
 					comportamientos[0]=robotsElegidos[i].getComportamiento().avanzar;
 					comportamientos[1]=robotsElegidos[i+1].getComportamiento().avanzar;
 					comportamientos[2]=robotsElegidos[i].getComportamiento().observar;
 					comportamientos[3]=robotsElegidos[i+1].getComportamiento().observar;
-					
+					comportamientos[4]=robotsElegidos[i].getComportamiento().esperar;
+					comportamientos[5]=robotsElegidos[i+1].getComportamiento().esperar;
 					for(int n=0; n<comportamientos.length; n=n+2) {
 						for(int k=0; k<=(comportamientos[n].length/2)-1; k++) {
 							int inter = comportamientos[n][k];
@@ -164,11 +170,19 @@ public class Generacion {
 //			System.out.print(" ");
 //			System.out.println(robotsElegidos[i+1].getComportamiento().observar[1]);
 		}
-		return robotsElegidos;
+		Mutar(robotsElegidos);
 	}
 	
-	public void Mutar() {
-		
+	public Robot[] Mutar(Robot[] robotsElegidos) {
+		Random rand;
+		Poblacion pob=Poblacion.getInstance();
+		int cantMutar=(int)(pob.SizePoblacion*pob.probabilidadMutacion);
+		for(int i=0; i <= cantMutar; i++) {
+			rand = new Random();
+			rand.nextInt(robotsElegidos.length);
+			robotsElegidos[i].Definir();
+		}
+		return robotsElegidos;
 	}
 	
 	@Override
