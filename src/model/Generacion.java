@@ -94,6 +94,7 @@ public class Generacion {
 	public void Cruzar(Robot[] robotsElegidos) {
 		Random rand = new Random();
 		int numOmitido;
+		int numOmitido2;
 		
 		for(int i = 0; i < robotsElegidos.length; i = i+2) {
 //			System.out.println("********************************"+i);
@@ -112,11 +113,9 @@ public class Generacion {
 //			System.out.print(" ");
 //			System.out.println(robotsElegidos[i+1].getComportamiento().observar[1]);
 			numOmitido = rand.nextInt(4);
-			numOmitido = rand.nextInt(4);
+			numOmitido2 = rand.nextInt(4);
 			for(int j=0; j<3; j++) {
-				if(numOmitido == j) {
-					int guarAvan;
-					int guarObs;
+				if(numOmitido == j || numOmitido2 == j) {
 					switch(j) {
 						case 0:
 							Hardware bateria = robotsElegidos[i].getCaracteristicas().Bateria;
@@ -135,7 +134,7 @@ public class Generacion {
 							break;
 						case 3:
 							Hardware generador = robotsElegidos[i].getCaracteristicas().Generador;
-							robotsElegidos[i].getCaracteristicas().Generador = robotsElegidos[i+1].getCaracteristicas().Camara;
+							robotsElegidos[i].getCaracteristicas().Generador = robotsElegidos[i+1].getCaracteristicas().Generador;
 							robotsElegidos[i+1].getCaracteristicas().Generador = generador;
 					}
 					int [][] comportamientos = new int[6][3];
