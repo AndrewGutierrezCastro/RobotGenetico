@@ -46,6 +46,10 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				Observar();
 				arrayComportamientoActual = comportamiento.observar;
 				break;
+			case ESPERANDO:
+				GenerarEnergia();
+				arrayComportamientoActual = comportamiento.esperar;
+				break;
 			default:
 				break;
 			}
@@ -69,8 +73,11 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			if(numeroRandom >= menosProbable) {
 				//Obtener el siguiente comportamiento segun su estado actual
 				comportamiento.getNextComportamiento(100 - menosProbable, arrayComportamientoActual);
-			}else {
+			}else if(numeroRandom <= masProbable){
 				comportamiento.getNextComportamiento(100 - masProbable, arrayComportamientoActual);
+			}else{
+				int valorMedio = 100 -( (100-masProbable) + (100-masProbable));
+				comportamiento.getNextComportamiento(valorMedio, arrayComportamientoActual);
 			}
 		}
 	}
@@ -81,6 +88,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		 * basandose en la suma del costo de atravesar los bloques.
 		 * Entre menos mejor.
 		 * */
+		consumirEnergia();
 		Posicion posicionRevisada;
 		Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
 		boolean puedeInteractuar;
@@ -153,6 +161,14 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				}
 			}
 		}			
+	}
+	
+	private void GenerarEnergia() {
+		/*
+		 * Este metodo recarga la bateria segun si TipoDeHardware*/
+		int gananciaEnergetica = (int) (this.caracteristicas.Generador.getEnergia()) / 10;
+		caracteristicas.Bateria.setEnergia
+			(caracteristicas.Bateria.getEnergia() + gananciaEnergetica);	
 	}
 	
 	@Override		
@@ -335,9 +351,11 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		/*Retorna un array de Object de:
 		 * Alive:true    Camara: MEDIO Motor: BASICO  Bateria: 3000  X:19 Y:0 */
 		Object[] objInfo = new Object []
-			{	isAlive(),
+			{	this.comportamiento.estado,
+				isAlive(),
 				caracteristicas.Camara.getName(),
 				caracteristicas.Motor.getName(),
+				caracteristicas.Generador.getName(),
 				(int)caracteristicas.Bateria.getEnergia(),
 				posicion.x,
 				posicion.y};

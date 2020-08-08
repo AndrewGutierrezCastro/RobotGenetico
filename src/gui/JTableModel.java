@@ -3,6 +3,7 @@ package gui;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.TabableView;
 
+import model.Estado;
 import model.Hardware.TiposHardware;
 import model.Robot;
 
@@ -10,14 +11,14 @@ public class JTableModel extends DefaultTableModel {
 	/**
      * Se carga con tres filas y tres columnas con numeros.
      */
-	private static String[] columnModel = new String[] { "Alive", "Camara", "Motor", "Bateria", "X", "Y" };
+	private static String[] columnModel = new String[] {"Estado", "Alive", "Camara", "Motor","Generador", "Bateria", "X", "Y" };
     
 	public JTableModel() {
     	/*Esta hecha para representar Robots
     	 * Los mismo tienen:
-    	 * 		Alive:true    Camara: MEDIO Motor: BASICO  Bateria: 3000  X:19 Y:0 */
+    	 * 		Alive:true    Camara: MEDIO Motor: BASICO Generador: BASICO Bateria: 3000  X:19 Y:0 */
         super(new Object[][] { 
-        		{ true, TiposHardware.AVANZADO, TiposHardware.MEDIO, 1000, 0, 0}}
+        		{ Estado.ESPERANDO, true, TiposHardware.AVANZADO, TiposHardware.MEDIO,TiposHardware.BASICO, 1000, 0, 0}}
         		, columnModel);
     }
 

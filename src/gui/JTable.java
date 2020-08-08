@@ -1,7 +1,7 @@
 package gui;
 
 public class JTable extends javax.swing.JTable {
-	private int[] columnSizes = {15,40,40,20,10,10};
+	private int[] columnSizes = {40,15,40,40, 40,20,5,5};
 	public JTable() {
 		super();
 	}

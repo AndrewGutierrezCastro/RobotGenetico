@@ -37,7 +37,7 @@ public class VentanaPrincipal extends Ventana{
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(970, 670);
+		frame.setSize(1040, 670);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();
@@ -45,7 +45,7 @@ public class VentanaPrincipal extends Ventana{
 		panel.setLayout(null);
 		
 		pnlTerreno = new JPanel();
-		pnlTerreno.setBounds(424, 11, 520, 610);
+		pnlTerreno.setBounds(504, 11, 520, 610);
 		panel.add(pnlTerreno);
 		pnlTerreno.setLayout(new MigLayout("", "[][][][][][][][][][][][][][][][][][][][]", "[][][][][][][][][][][][][][][][][][][][]"));
 		
@@ -58,11 +58,11 @@ public class VentanaPrincipal extends Ventana{
 		panel.add(btnPausaSimulacion);
 		
 		cmbGeneracion = new JComboBox<Generacion>();
-		cmbGeneracion.setBounds(206, 45, 194, 20);
+		cmbGeneracion.setBounds(276, 45, 194, 20);
 		panel.add(cmbGeneracion);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(20, 76, 380, 449);
+		scrollPane.setBounds(20, 76, 450, 450);
 		panel.add(scrollPane);
 		
 		tblRobots = new JTable();

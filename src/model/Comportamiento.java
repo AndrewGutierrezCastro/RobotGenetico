@@ -8,49 +8,39 @@ import java.util.Random;
 public class Comportamiento extends Genetico implements Cloneable{
 	public int[] avanzar; // 0: AVANZAR, 1:OBSERVAR, 2:ESPERAR
 	public int[] observar;// 0: AVANZAR, 1:OBSERVAR, 2:ESPERAR
+	public int[] esperar;
 	public Estado estado;
 	
 	public Comportamiento() {
-		avanzar = new int[2];
-		observar = new int[2];
+		avanzar = new int[3];
+		observar = new int[3];
+		esperar = new int[3];
 		estado = Estado.OBSERVANDO;
 		Definir();
 	}
 	
 	public void getNextComportamiento(int valor, int[] comportamientoActual) {
 		int indiceActual = 0;
-		ArrayList<Estado> estadoAvanzando;
+		ArrayList<Estado> estadoAvanzando = 
+				new ArrayList<Estado>( Arrays.asList(Estado.AVANZANDO, Estado.OBSERVANDO, Estado.ESPERANDO));
 		for(int i = 0; i < comportamientoActual.length; i++) {
 			 if(comportamientoActual[i] == valor) {
 				 indiceActual = i;
 				 break;
 			 }
 		}
-		
-		switch (this.estado) {
-		case AVANZANDO:
-			estadoAvanzando = new ArrayList<Estado>(
-					Arrays.asList(Estado.AVANZANDO, Estado.OBSERVANDO));
-			this.estado = estadoAvanzando.get(indiceActual);
-			break;
-		case OBSERVANDO:
-			estadoAvanzando = new ArrayList<Estado>(
-					Arrays.asList(Estado.OBSERVANDO, Estado.AVANZANDO));	
-			this.estado = estadoAvanzando.get(indiceActual);
-			break;
-		default:
-			break;
-		}
+		this.estado = estadoAvanzando.get(indiceActual);
 	}
 	
 	public void Definir() {
 		Random rand = new Random();
-		
-		avanzar[0] = rand.nextInt(100);// 0 - 100 = 45
-		observar[0] = rand.nextInt(100);
-		
-		avanzar[1] = 100 - avanzar[0];// 100 - 45 = 55
-		observar[1] = 100 - observar[0];
+		ArrayList<int[]> comportamientos = new ArrayList<int[]>(Arrays.asList(avanzar, observar, esperar));
+		for (int[] comportamiento : comportamientos) {
+			comportamiento[0] = rand.nextInt(100);
+			int numComportamiento = 100 - comportamiento[0];
+			comportamiento[1] = rand.nextInt(numComportamiento);
+			comportamiento[2] = 100 - (comportamiento[0] + comportamiento[1]);
+		}
 		
 	}
 	

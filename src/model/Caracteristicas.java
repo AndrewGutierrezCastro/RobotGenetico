@@ -7,6 +7,7 @@ public class Caracteristicas extends Genetico implements Cloneable {
 	public Hardware Bateria;
 	public Hardware Camara;
 	public Hardware Motor;
+	public Hardware Generador;
 	
 	public Caracteristicas() {
 		Definir();
@@ -45,7 +46,8 @@ public class Caracteristicas extends Genetico implements Cloneable {
 		rand = new Random();
 		numeroRandom = rand.nextInt(3);
 		this.Motor = new Hardware(listaHardware[numeroRandom]);
-
+		numeroRandom = rand.nextInt(3);
+		this.Generador = new Hardware(listaHardware[numeroRandom]);
 	}
 	
 }

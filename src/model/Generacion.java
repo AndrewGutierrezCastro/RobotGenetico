@@ -133,11 +133,12 @@ public class Generacion {
 							robotsElegidos[i+1].getCaracteristicas().Camara = camara;
 							break;
 					}
-					int [][] comportamientos = new int[4][2];
+					int [][] comportamientos = new int[8][4];
 					comportamientos[0]=robotsElegidos[i].getComportamiento().avanzar;
 					comportamientos[1]=robotsElegidos[i+1].getComportamiento().avanzar;
 					comportamientos[2]=robotsElegidos[i].getComportamiento().observar;
 					comportamientos[3]=robotsElegidos[i+1].getComportamiento().observar;
+					
 					for(int n=0; n<comportamientos.length; n=n+2) {
 						for(int k=0; k<=(comportamientos[n].length/2)-1; k++) {
 							int inter = comportamientos[n][k];

@@ -31,10 +31,12 @@ public class Poblacion {
 		Generacion.get(Generacion.size() - 1).ComportarRobots();
 		
 	}
+	
 	public void PausaGeneracion() {
 		Generacion.get(Generacion.size() - 1).PausaRobots();
 		
 	}
+	
 	private void CrearNuevaGeneracion() {
 		/* Definir el valor objetivo -> en nuestro caso es llegar a la casilla 0,19
 		 * y su valor de aptitud
