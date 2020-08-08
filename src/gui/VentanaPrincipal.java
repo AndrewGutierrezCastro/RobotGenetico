@@ -11,6 +11,9 @@ import javax.swing.JScrollPane;
 import controller.ViewController;
 import model.Generacion;
 import net.miginfocom.swing.MigLayout;
+import java.awt.Color;
+import javax.swing.UIManager;
+import java.awt.SystemColor;
 
 public class VentanaPrincipal extends Ventana{
 
@@ -35,6 +38,8 @@ public class VentanaPrincipal extends Ventana{
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setForeground(UIManager.getColor("TextArea.foreground"));
+		frame.setBackground(new Color(64, 64, 64));
 		frame.setResizable(false);
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -42,10 +47,13 @@ public class VentanaPrincipal extends Ventana{
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();
+		panel.setBackground(SystemColor.activeCaptionText);
+		panel.setForeground(UIManager.getColor("TableHeader.foreground"));
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 		
 		pnlTerreno = new JPanel();
+		pnlTerreno.setBackground(new Color(0, 0, 0));
 		pnlTerreno.setBounds(504, 11, 520, 610);
 		panel.add(pnlTerreno);
 		pnlTerreno.setLayout(new MigLayout("", "[][][][][][][][][][][][][][][][][][][][]", "[][][][][][][][][][][][][][][][][][][][]"));

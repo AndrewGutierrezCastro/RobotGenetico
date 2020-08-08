@@ -19,6 +19,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	public Posicion posicion, objetivo;
 	public Icon iconRobot;
 	private ArrayList<Posicion> direcciones;
+	private Boolean[][] matrizPosicionesPasadas;
 	Random rand = new Random();
 	
 	public Robot() {
@@ -30,6 +31,8 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		iconRobot = Poblacion.getInstance().hashImagenes.get("ROBOT");
 		HiloRobot = new Thread(this);
 		valorAptitud = Integer.MIN_VALUE;
+		matrizPosicionesPasadas = new  Boolean[20][20];
+		
 	}
 	
 	public void Comportarse() {
@@ -122,6 +125,9 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				if (puedeInteractuar){
 					direccionesMap.get(i).add(posicionRevisada.Copy()); //Agregar la direccion que se puede recorrer
 					costeEnergeticoBloque += terreno[posicionRevisada.x][posicionRevisada.y].consumo;
+					if(matrizPosicionesPasadas[posicionRevisada.x][posicionRevisada.y] == null) {
+						costeEnergeticoBloque = (int) (costeEnergeticoBloque*0.5);
+					}
 				}else {
 					break; //Si en la direccion que mira encuentra el camino bloqueado no seguir revisando
 				}
@@ -168,7 +174,8 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 						  // y la misma culpa la interaccion.
 				}
 			}
-		}			
+		}
+		matrizPosicionesPasadas[posicion.x][posicion.y] = true;
 	}
 	
 	private void GenerarEnergia() {
