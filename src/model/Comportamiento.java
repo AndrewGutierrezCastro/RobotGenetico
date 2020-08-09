@@ -15,21 +15,27 @@ public class Comportamiento extends Genetico implements Cloneable{
 		avanzar = new int[3];
 		observar = new int[3];
 		esperar = new int[3];
-		estado = Estado.OBSERVANDO;
+		estado = Estado.AVANZANDO;
 		Definir();
 	}
 	
 	public void getNextComportamiento(int valor, int[] comportamientoActual) {
-		int indiceActual = 0;
-		ArrayList<Estado> estadoAvanzando = 
-				new ArrayList<Estado>( Arrays.asList(Estado.AVANZANDO, Estado.OBSERVANDO, Estado.ESPERANDO));
+		int indiceActual = 2;
+		/*
+		 * ArrayList<Estado> estadoAvanzando = new ArrayList<Estado>( Arrays.asList(
+		 * Estado.OBSERVANDO, Estado.ESPERANDO,Estado.AVANZANDO));
+		 */
 		for(int i = 0; i < comportamientoActual.length; i++) {
 			 if(comportamientoActual[i] == valor) {
 				 indiceActual = i;
 				 break;
 			 }
 		}
-		this.estado = estadoAvanzando.get(indiceActual);
+		this.estado =
+			Arrays.asList(
+					Estado.AVANZANDO,
+				Estado.OBSERVANDO,
+				Estado.ESPERANDO).get(indiceActual);
 	}
 	
 	public void Definir() {
@@ -76,4 +82,6 @@ public class Comportamiento extends Genetico implements Cloneable{
 		//TODO llamar este metodo luego de la creacion para mutar
 	}
 
+	
+	
 }

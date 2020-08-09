@@ -5,9 +5,9 @@ public class Hardware implements Cloneable{
 	public enum TiposHardware{
 		/*
 		 *Enumerable para los tipos de hardware standard */
-		BASICO (0.30, 1000), 
-		MEDIO (0.60, 2000), 
-		AVANZADO (0.90, 3000);
+		BASICO (50, 1000), 
+		MEDIO (100, 2000), 
+		AVANZADO (175, 3000);
 		
 		private double costo;
 		private double energia; //La energia se puede traducir a potencia para el motor

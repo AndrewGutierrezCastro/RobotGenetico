@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.Component;
-
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -26,6 +24,7 @@ public class VentanaPrincipal extends Ventana{
 	public JComboBox<Generacion> cmbGeneracion;
 	public JTable tblRobots;
 	public JButton btnNuevaGeneracion;
+	public JButton btnVerInfoRobot;
 	/**
 	 * Create the application.
 	 */
@@ -82,6 +81,10 @@ public class VentanaPrincipal extends Ventana{
 		btnNuevaGeneracion.setBounds(321, 607, 149, 23);
 		panel.add(btnNuevaGeneracion);
 		
+		btnVerInfoRobot = new JButton("Ver Info");
+		btnVerInfoRobot.setBounds(375, 573, 95, 23);
+		panel.add(btnVerInfoRobot);
+		
 		
 	}
 	public void setController(ViewController pController) {
@@ -100,5 +103,8 @@ public class VentanaPrincipal extends Ventana{
 		
 		btnNuevaGeneracion.addActionListener(controller);
 		btnNuevaGeneracion.setActionCommand("CrearNuevaGeneracion");
+		
+		btnVerInfoRobot.addActionListener(controller);
+		btnVerInfoRobot.setActionCommand("VerInfo");
 	}
 }

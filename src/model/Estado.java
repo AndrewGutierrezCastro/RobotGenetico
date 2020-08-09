@@ -1,8 +1,8 @@
 package model;
 
 public enum Estado {
-	OBSERVANDO(0),
-	AVANZANDO(1),
+	AVANZANDO(0),
+	OBSERVANDO(1),
 	ESPERANDO(2);
 	
 	public int indice;

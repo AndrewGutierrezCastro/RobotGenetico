@@ -1,7 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.stream.Stream;
 
@@ -20,7 +22,15 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	public Icon iconRobot;
 	private ArrayList<Posicion> direcciones;
 	private Boolean[][] matrizPosicionesPasadas;
+	private int cantidadMovimientosTotal,
+				cantidadMovimientosDistintos,
+				cantidadObservaciones,
+				cantidadRecargas,
+				energiaRecargada,
+				energiaGastada;
+	private ArrayList<Posicion> posiciones;
 	Random rand = new Random();
+	
 	
 	public Robot() {
 		comportamiento = new Comportamiento();
@@ -32,7 +42,13 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		HiloRobot = new Thread(this);
 		valorAptitud = Integer.MIN_VALUE;
 		matrizPosicionesPasadas = new  Boolean[20][20];
-		
+		cantidadMovimientosDistintos =
+			cantidadMovimientosTotal =
+				cantidadObservaciones =
+					cantidadRecargas =
+						energiaRecargada = 
+						energiaGastada = 0;
+		posiciones = new ArrayList<Posicion>();
 	}
 	
 	public void Comportarse() {
@@ -40,6 +56,10 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			valorAptitud = (27 - (int) objetivo.distancia(this.posicion));
 			if(valorAptitud >= 25) {
 				this.caracteristicas.Bateria.setEnergia(0);
+			}else {
+				valorAptitud =
+					valorAptitud - 
+					(cantidadMovimientosTotal - cantidadMovimientosDistintos);
 			}
 		}
 		if(isAlive()) {
@@ -54,21 +74,30 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				break;
 			case OBSERVANDO:
 				Observar();
-				arrayComportamientoActual = comportamiento.observar;
+				arrayComportamientoActual = comportamiento.esperar;
+				
 				break;
 			case ESPERANDO:
 				GenerarEnergia();
-				arrayComportamientoActual = comportamiento.esperar;
+				arrayComportamientoActual = comportamiento.observar;
 				break;
 			default:
 				break;
 			}
 			
 			//Se obtiene la accion mas probable a tomar por ejemplo un 50%
-			masProbable = 100 - Math.max(arrayComportamientoActual[0], arrayComportamientoActual[1]);
+			masProbable = 100 -
+					Math.max(arrayComportamientoActual[0],
+						Math.max(arrayComportamientoActual[1],
+									arrayComportamientoActual[2])
+							);
 			
 			//Se obtiene la accion menos probable a tomar por ejemplo un 10%
-			menosProbable = 100 - Math.min(arrayComportamientoActual[0], arrayComportamientoActual[1]);
+			menosProbable = 100 -
+					Math.min(arrayComportamientoActual[0],
+							Math.min(arrayComportamientoActual[1],
+										arrayComportamientoActual[2])
+								);
 	
 			
 			/*
@@ -86,7 +115,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			}else if(numeroRandom <= masProbable){
 				comportamiento.getNextComportamiento(100 - masProbable, arrayComportamientoActual);
 			}else{
-				int valorMedio = 100 -( (100-masProbable) + (100-masProbable));
+				int valorMedio = 100 -( (100-masProbable) + (100-menosProbable));
 				comportamiento.getNextComportamiento(valorMedio, arrayComportamientoActual);
 			}
 			
@@ -99,6 +128,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		 * basandose en la suma del costo de atravesar los bloques.
 		 * Entre menos mejor.
 		 * */
+		cantidadObservaciones++;
 		consumirEnergia();
 		Posicion posicionRevisada;
 		Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
@@ -175,15 +205,24 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				}
 			}
 		}
+		
+		if(matrizPosicionesPasadas[posicion.x][posicion.y] == null) {
+			cantidadMovimientosDistintos++;
+			posiciones.add(posicion);
+		}
 		matrizPosicionesPasadas[posicion.x][posicion.y] = true;
+		cantidadMovimientosTotal++;	
 	}
 	
 	private void GenerarEnergia() {
 		/*
 		 * Este metodo recarga la bateria segun si TipoDeHardware*/
-		int gananciaEnergetica = (int) (this.caracteristicas.Generador.getEnergia()) / 10;
+		cantidadRecargas++;
+		int gananciaEnergetica = (int) (this.caracteristicas.Generador.getEnergia() - 1000) / 1000;
+		energiaRecargada += gananciaEnergetica;
 		caracteristicas.Bateria.setEnergia
 			(caracteristicas.Bateria.getEnergia() + gananciaEnergetica);	
+		
 	}
 	
 	@Override		
@@ -221,7 +260,8 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 			break;
 		default:
 			break;
-		}	
+		}
+		energiaGastada += costeEnergico;
 		caracteristicas.Bateria.setEnergia(Math.max(caracteristicas.Bateria.getEnergia() - costeEnergico, 0));
 	}
 
@@ -294,7 +334,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		/*Metodo que corre al darle Start() al hilo del robot*/
 		while(HiloRobot.isAlive()) {			
 			try {
-				HiloRobot.sleep(50);
+				HiloRobot.sleep(5);
 				Comportarse();
 				PintarseGUI();
 			} catch (InterruptedException e) {
@@ -362,6 +402,10 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		this.lblTerreno = pTerreno;
 		
 	}
+	
+	public ArrayList<Posicion> getPosiciones() {
+		return posiciones;
+	}
 
 	public Object[] getInfo() {
 		/*Retorna un array de Object de:
@@ -378,5 +422,53 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		return objInfo;
 	}
 	
+	public Object[] getAllInfo() {
+		/*Retorna un array de Object de:
+		 * Alive:true 
+		 * Camara: MEDIO
+		 * Motor: BASICO
+		 * Bateria: Avanzado
+		 * Llego: True
+		 * AVANZAR:[5,5,90]
+		 * OBSERVAR:[10,10,80]
+		 * ESPERAR:[40,40,20]
+		 * Observaciones:542
+		 * Recargas: 14
+		 * Genero: 1526
+		 * Gasto: 6511
+		 * MovientosDistintos: 58
+		 * Movimientos: 125 
+		 * Costo: 516
+		 * */
+		int costo = 0;
+		List<Hardware> listaPiezas =
+				Arrays.asList(caracteristicas.Bateria,
+					  caracteristicas.Camara,
+					  caracteristicas.Motor,
+					  caracteristicas.Generador);
+		for (Hardware parte : listaPiezas) {
+			costo += parte.getCosto();
+		}
+				
+		Object[] objInfo = new Object []
+			{	isAlive(),
+				caracteristicas.Camara.getName(),
+				caracteristicas.Motor.getName(),
+				caracteristicas.Generador.getName(),
+				caracteristicas.Bateria.getName(),
+				(posicion.x == 0 & posicion.y == 19),
+				Arrays.toString(comportamiento.avanzar),
+				Arrays.toString(comportamiento.observar),
+				Arrays.toString(comportamiento.esperar),
+				cantidadObservaciones,
+				cantidadRecargas,
+				energiaRecargada,
+				energiaGastada,
+				cantidadMovimientosDistintos,
+				cantidadMovimientosTotal,
+				costo
+				};
+		return objInfo;
+	}
 	
 }

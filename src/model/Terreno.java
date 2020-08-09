@@ -5,8 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Terreno {
+import javax.swing.JLabel;
+
+public class Terreno implements Runnable{
 	public Bloque[][] terreno;
+	private JLabel[][] lblMatriz;
+	private JLabel[][] lblTerreno;
+	private long tiempoEspera = 6;
+	public Thread HiloTerreno;
 	public final int ancho = 20, alto = 20;
 	public final long seed = 13853511;
 	
@@ -14,6 +20,7 @@ public class Terreno {
 		terreno =  new Bloque[ancho][alto];
 		//GenerarTerrenoRandom();
 		LeerNivelTxt();
+		HiloTerreno = new Thread(this);
 	}
 	
 	private void GenerarTerrenoRandom() {
@@ -74,4 +81,41 @@ public class Terreno {
 			System.out.println();
 		}
 	}
+
+	@Override
+	public void run() {
+		while(HiloTerreno.isAlive()) {
+			MostrarTerreno();
+			try {
+				HiloTerreno.sleep(this.tiempoEspera);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	private void MostrarTerreno() {
+		for (int i = 0; i < lblTerreno.length ; i++) {
+			for (int j = 0; j < lblTerreno[0].length; j++) {	
+				lblMatriz[i][j].setIcon(lblTerreno[i][j].getIcon());
+			}
+		}
+	}
+	
+	public JLabel[][] getLblMatriz() {
+		return lblMatriz;
+	}
+
+	public JLabel[][] getLblTerreno() {
+		return lblTerreno;
+	}
+
+	public void setLblMatriz(JLabel[][] lblMatriz) {
+		this.lblMatriz = lblMatriz;
+	}
+
+	public void setLblTerreno(JLabel[][] lblTerreno) {
+		this.lblTerreno = lblTerreno;
+	}
+	
 }

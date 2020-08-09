@@ -11,7 +11,7 @@ public class Poblacion {
 	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
 	public HashMap<String, Icon> hashImagenes;
-	public final int SizePoblacion = 50;
+	public final int SizePoblacion = 24;
 	public final double probabilidadMutacion = 0.3; //P(M) = 1 / SizePoblacion 
 													//La probabilidad que un individuo sea mutado
 	public final double maxSizePoblacion = SizePoblacion * probabilidadMutacion *10;

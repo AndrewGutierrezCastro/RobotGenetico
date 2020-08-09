@@ -34,4 +34,23 @@ public class Helpers {
 		}
 		return iconoImagen;
 	}
+	public static Icon getImagenResized(String nombreBloque, String extension, int anchoRoot, int altoRoot) {
+		
+		String path = System.getProperty("user.dir")+"/src/images/"+nombreBloque+extension;
+		File archivoImagen = new File(path);
+		ImageIcon iconoImagen = null;
+		Image IconReescalada = null;
+
+		try {	  
+			iconoImagen = new ImageIcon(ImageIO.read(archivoImagen));
+			IconReescalada = iconoImagen.getImage();
+			Image newimg = IconReescalada.getScaledInstance(anchoRoot, altoRoot,  java.awt.Image.SCALE_SMOOTH); // scale it the smooth way
+			iconoImagen = new ImageIcon(newimg);
+		} catch (IOException e) {
+			System.out.print(e.getMessage());
+			System.out.println(" No se pudo cargar el bloque, " + nombreBloque +" "+path );
+			
+		}
+		return iconoImagen;
+	}
 }

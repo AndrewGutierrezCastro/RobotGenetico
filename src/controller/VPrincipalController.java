@@ -7,6 +7,7 @@ import javax.swing.JLabel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableModelEvent;
 
+import Application.App;
 import gui.JTableModel;
 import gui.ListGeneracionModel;
 import gui.ListRobotModel;
@@ -21,8 +22,6 @@ public class VPrincipalController extends ViewController implements Runnable{
 
 	private VentanaPrincipal ventana;
 	private Terreno terreno;
-	private JLabel[][] lblMatriz;
-	private JLabel[][] lblTerreno;
 	private Poblacion poblacion;
 	private Thread HiloGeneral;
 	public VPrincipalController() {
@@ -36,6 +35,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 	public void Start() {
 		if(!HiloGeneral.isAlive()) {
 			HiloGeneral.start();
+			terreno.HiloTerreno.start();
 		}else {
 			HiloGeneral.resume();
 			ComportarPoblacion();
@@ -83,7 +83,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 	}
 	
 	public void cargarTerrenoGUI() {
-		lblTerreno = new JLabel[terreno.alto][terreno.ancho];
+		JLabel[][] lblTerreno = new JLabel[terreno.alto][terreno.ancho];
 		
 		for (int i = 0; i < lblTerreno.length ; i++) {
 			for (int j = 0; j < lblTerreno[0].length; j++) {
@@ -97,25 +97,19 @@ public class VPrincipalController extends ViewController implements Runnable{
 				lblTerreno[i][j] = lblBloque;
 			}
 		}
+		this.terreno.setLblTerreno(lblTerreno);
 			
 	}
 	
 	private void crearMatrizPanel() {
-		lblMatriz = new JLabel[terreno.alto][terreno.ancho];
+		terreno.setLblMatriz(new JLabel[terreno.alto][terreno.ancho]);
+		JLabel[][] lblMatriz = terreno.getLblMatriz();
 		
 		for (int i = 0; i < lblMatriz.length ; i++) {
 			for (int j = 0; j < lblMatriz[0].length; j++) {
-				JLabel lblMatriz = new JLabel();
-				ventana.pnlTerreno.add(lblMatriz, "cell "+j+" "+i);
-				this.lblMatriz[i][j] = lblMatriz;
-			}
-		}
-	}
-	
-	private void MostrarTerreno() {
-		for (int i = 0; i < lblTerreno.length ; i++) {
-			for (int j = 0; j < lblTerreno[0].length; j++) {	
-				lblMatriz[i][j].setIcon(lblTerreno[i][j].getIcon());
+				JLabel lblTemporal = new JLabel();
+				ventana.pnlTerreno.add(lblTemporal, "cell "+j+" "+i);
+				lblMatriz[i][j] = lblTemporal;
 			}
 		}
 	}
@@ -159,10 +153,20 @@ public class VPrincipalController extends ViewController implements Runnable{
 			Pause();
 			break;
 		case "CmbGeneracion":
-			
+			refresh();
 			break;
 		case "CrearNuevaGeneracion":
 			procesoNuevaGeneracion();
+			break;
+		case "VerInfo":
+			int rowSelected = ventana.tblRobots.getSelectedRow();
+			if( rowSelected != -1) {
+				JTableModel tableModel = (JTableModel) ventana.tblRobots.getModel();
+				System.out.println(tableModel.getRobot(rowSelected));
+				new VInformacionRobot(terreno,
+						tableModel.getRobot(rowSelected)).show();
+				
+			}
 			break;
 		default:
 			break;
@@ -186,7 +190,6 @@ public class VPrincipalController extends ViewController implements Runnable{
 	}
 	
 	public void refresh() {		
-		MostrarTerreno();
 		MostrarRobots();
 	}
 	
@@ -195,16 +198,8 @@ public class VPrincipalController extends ViewController implements Runnable{
 		cargarTerrenoGUI(); 
 		crearMatrizPanel();
 		refresh();
-		Poblacion.getInstance().setLblTerreno(lblMatriz);
+		Poblacion.getInstance().setLblTerreno(terreno.getLblMatriz());
 		
-	}
-	
-	public JLabel[][] getLblMatriz() {
-		return lblMatriz;
-	}
-
-	public void setLblMatriz(JLabel[][] lblMatriz) {
-		this.lblMatriz = lblMatriz;
 	}
 	
 }
