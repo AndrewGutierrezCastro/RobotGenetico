@@ -39,7 +39,7 @@ public class Comportamiento extends Genetico implements Cloneable{
 	}
 	
 	public void Definir() {
-		Boolean cadenaCorrecta = false;
+		Boolean cadenaCorrecta = true;
 		ArrayList<int[]> comportamientos = new ArrayList<int[]>(Arrays.asList(avanzar, observar, esperar));
 		while(true) {
 			for (int[] comportamiento : comportamientos) {
@@ -49,11 +49,12 @@ public class Comportamiento extends Genetico implements Cloneable{
 				comportamiento[1] = rand.nextInt(numComportamiento);
 				comportamiento[2] = 100 - (comportamiento[0] + comportamiento[1]);
 				if( Arrays.stream(comportamiento).sum() != 100) {
-					break;
+					cadenaCorrecta = false;
 				}
 			}
-			break;
-			
+			if(cadenaCorrecta) {
+				break;
+			}
 		}
 		
 	}
