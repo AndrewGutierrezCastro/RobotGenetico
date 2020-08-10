@@ -9,5 +9,6 @@ public class Main {
 		Simulacion.getInstance();
 		App.getInstance();
 		App.start();
+		
 	}
 }

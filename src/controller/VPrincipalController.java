@@ -2,15 +2,15 @@ package controller;
 
 
 import java.awt.event.ActionEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
+import java.util.Arrays;
+
 import javax.swing.Icon;
 import javax.swing.JLabel;
-import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableModelEvent;
-
-import Application.App;
 import gui.JTableModel;
 import gui.ListGeneracionModel;
-import gui.ListRobotModel;
 import gui.VentanaPrincipal;
 import model.Generacion;
 import model.Poblacion;
@@ -24,9 +24,11 @@ public class VPrincipalController extends ViewController implements Runnable{
 	private Terreno terreno;
 	private Poblacion poblacion;
 	private Thread HiloGeneral;
+
 	public VPrincipalController() {
 		ventana = new VentanaPrincipal();
 		ventana.setController(this);
+		Simulacion.getInstance().createTerreno();
 		terreno = Simulacion.getInstance().getTerreno();
 		poblacion = Poblacion.getInstance();
 		HiloGeneral = new Thread(this);
@@ -35,9 +37,10 @@ public class VPrincipalController extends ViewController implements Runnable{
 	public void Start() {
 		if(!HiloGeneral.isAlive()) {
 			HiloGeneral.start();
-			terreno.HiloTerreno.start();
+			terreno.MostrarTerreno();
 		}else {
 			HiloGeneral.resume();
+			terreno.MostrarTerreno();
 			ComportarPoblacion();
 			System.out.println("Hilo reanudado");
 		}
@@ -48,16 +51,17 @@ public class VPrincipalController extends ViewController implements Runnable{
 		ComportarPoblacion();
 		while(HiloGeneral.isAlive()) {		
 			try {
+				
+				HiloGeneral.sleep(200);
 				refresh();
-				HiloGeneral.sleep(100);
 				if(Poblacion.getInstance().isAllDead()) {
-					System.out.println("Antes");
 					procesoNuevaGeneracion();
-					System.out.println("Despues");
 					
 				}
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.out.println("Desactualizacion Hilo");
+			}catch (Throwable e) {
+				System.out.println("Hilo: Tabla error");
 			}
 		}
 	}
@@ -80,6 +84,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 			HiloGeneral.stop();
 			System.out.println("Hilo detenido");
 		}
+		PausaPoblacion();
 	}
 	
 	public void cargarTerrenoGUI() {
@@ -98,7 +103,7 @@ public class VPrincipalController extends ViewController implements Runnable{
 			}
 		}
 		this.terreno.setLblTerreno(lblTerreno);
-			
+		Poblacion.getInstance().setLblBloques(lblTerreno);
 	}
 	
 	private void crearMatrizPanel() {
@@ -109,6 +114,14 @@ public class VPrincipalController extends ViewController implements Runnable{
 			for (int j = 0; j < lblMatriz[0].length; j++) {
 				JLabel lblTemporal = new JLabel();
 				ventana.pnlTerreno.add(lblTemporal, "cell "+j+" "+i);
+				lblTemporal.addMouseMotionListener(new MouseMotionAdapter() {
+					@Override
+					public void mouseMoved(MouseEvent e) {
+						final int x = (lblTemporal.getY()/29) ;
+						final int y = (lblTemporal.getX())/25;
+						lblTemporal.setToolTipText("x: "+x +", y:"+y);
+					}
+				});
 				lblMatriz[i][j] = lblTemporal;
 			}
 		}
@@ -120,14 +133,17 @@ public class VPrincipalController extends ViewController implements Runnable{
 	}
 	
 	private void MostrarRobots() {
+		
 		Generacion generacionSeleccionada = (Generacion) ventana.cmbGeneracion.getSelectedItem();
-		if(generacionSeleccionada != null) {
-			Robot[] robotsGeneracionActual = generacionSeleccionada.robots;
+		Robot[] robotsGeneracionActual = generacionSeleccionada.robots;
+		if(generacionSeleccionada != null && robotsGeneracionActual != null) {
+			
 			ventana.tblRobots.setModel(new JTableModel(robotsGeneracionActual) );
 			ventana.tblRobots.AdjustColumnWidth();
 		}else {
 			System.out.println("Sin generacion seleccionada");
 		}
+		
 	}
 	
 	@Override
@@ -153,7 +169,11 @@ public class VPrincipalController extends ViewController implements Runnable{
 			Pause();
 			break;
 		case "CmbGeneracion":
-			refresh();
+			try {
+				refresh();
+			} catch (Exception e1) {
+				System.out.println("ComboBox: Error tabla");
+			}
 			break;
 		case "CrearNuevaGeneracion":
 			procesoNuevaGeneracion();
@@ -185,11 +205,11 @@ public class VPrincipalController extends ViewController implements Runnable{
 	
 	@Override
 	public void show() {
-		ventana.frame.setVisible(true);	
+		ventana.frmSimulacion.setVisible(true);	
 		initialize();
 	}
 	
-	public void refresh() {		
+	public void refresh() throws Exception {		
 		MostrarRobots();
 	}
 	
@@ -197,8 +217,15 @@ public class VPrincipalController extends ViewController implements Runnable{
 	public void initialize() {
 		cargarTerrenoGUI(); 
 		crearMatrizPanel();
-		refresh();
+		try {
+			refresh();
+		} catch (Exception e) {
+			System.out.println("Initialize: Tabla error");
+		}
 		Poblacion.getInstance().setLblTerreno(terreno.getLblMatriz());
+		
+		Simulacion.getInstance().createGeneracionInicial();
+		
 		
 	}
 	

@@ -26,7 +26,6 @@ public class App {
 		public static void preload() {
 			//precarga de todos los controladores
 			controllerMap.put("VINICIOCONTROLLER", new VInicioController());
-			controllerMap.put("VPRINCIPALCONTROLLER", new VPrincipalController());
 		}
 		public static void start() {
 			preload();

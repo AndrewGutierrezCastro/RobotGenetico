@@ -15,12 +15,13 @@ public class Terreno implements Runnable{
 	public Thread HiloTerreno;
 	public final int ancho = 20, alto = 20;
 	public final long seed = 13853511;
-	
 	public Terreno() {
 		terreno =  new Bloque[ancho][alto];
 		//GenerarTerrenoRandom();
 		LeerNivelTxt();
 		HiloTerreno = new Thread(this);
+		tiempoEspera = Poblacion.getInstance().tiempoEspera;
+		tiempoEspera = (tiempoEspera/2);
 	}
 	
 	private void GenerarTerrenoRandom() {
@@ -94,7 +95,7 @@ public class Terreno implements Runnable{
 		}
 	}
 	
-	private void MostrarTerreno() {
+	public void MostrarTerreno() {
 		for (int i = 0; i < lblTerreno.length ; i++) {
 			for (int j = 0; j < lblTerreno[0].length; j++) {	
 				lblMatriz[i][j].setIcon(lblTerreno[i][j].getIcon());

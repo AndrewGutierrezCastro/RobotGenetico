@@ -6,16 +6,22 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JToolTip;
+
 import controller.ViewController;
 import model.Generacion;
 import net.miginfocom.swing.MigLayout;
 import java.awt.Color;
 import javax.swing.UIManager;
 import java.awt.SystemColor;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.JLabel;
+import java.awt.Toolkit;
 
 public class VentanaPrincipal extends Ventana{
 
-	public JFrame frame;
+	public JFrame frmSimulacion;
 	public JPanel pnlTerreno;
 	private int width = 760;
 	private int height = 670;
@@ -36,24 +42,27 @@ public class VentanaPrincipal extends Ventana{
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.setForeground(UIManager.getColor("TextArea.foreground"));
-		frame.setBackground(new Color(64, 64, 64));
-		frame.setResizable(false);
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setSize(1040, 670);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		frmSimulacion = new JFrame();
+		frmSimulacion.setIconImage(Toolkit.getDefaultToolkit().getImage(VentanaPrincipal.class.getResource("/images/Robot.png")));
+		frmSimulacion.setTitle("Simulacion");
+		frmSimulacion.setForeground(UIManager.getColor("TextArea.foreground"));
+		frmSimulacion.setBackground(new Color(64, 64, 64));
+		frmSimulacion.setResizable(false);
+		frmSimulacion.setBounds(100, 100, 450, 300);
+		frmSimulacion.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmSimulacion.setSize(1040, 670);
+		frmSimulacion.getContentPane().setLayout(new BoxLayout(frmSimulacion.getContentPane(), BoxLayout.X_AXIS));
 		
 		JPanel panel = new JPanel();
 		panel.setBackground(SystemColor.activeCaptionText);
 		panel.setForeground(UIManager.getColor("TableHeader.foreground"));
-		frame.getContentPane().add(panel);
+		frmSimulacion.getContentPane().add(panel);
 		panel.setLayout(null);
 		
-		pnlTerreno = new JPanel();
+
+		pnlTerreno = new JPanel();		  
 		pnlTerreno.setBackground(new Color(0, 0, 0));
-		pnlTerreno.setBounds(504, 11, 520, 610);
+		pnlTerreno.setBounds(504, 11, 520, 600);
 		panel.add(pnlTerreno);
 		pnlTerreno.setLayout(new MigLayout("", "[][][][][][][][][][][][][][][][][][][][]", "[][][][][][][][][][][][][][][][][][][][]"));
 		

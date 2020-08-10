@@ -9,6 +9,10 @@ import model.Robot;
 
 public class JTableModel extends DefaultTableModel {
 	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3578078697445253779L;
+	/**
      * Se carga con tres filas y tres columnas con numeros.
      */
 	private static String[] columnModel = new String[] {"Estado", "Alive", "Camara", "Motor","Generador", "Bateria", "X", "Y" };
@@ -38,13 +42,16 @@ public class JTableModel extends DefaultTableModel {
     }
 
     public JTableModel(Robot[] robotsGeneracionActual) {
+    	
     	super();
     	this.robots = robotsGeneracionActual;
     	Object[][] tablaObject = new Object[robotsGeneracionActual.length][columnModel.length];
 		for (int i = 0; i < robotsGeneracionActual.length; i++) {
 			tablaObject[i] = robotsGeneracionActual[i].getInfo();
 		}
-		this.setDataVector(tablaObject, columnModel);
+		
+			this.setDataVector(tablaObject, columnModel);
+	    
     }
     
     public JTableModel(Robot robot) {
@@ -75,12 +82,7 @@ public class JTableModel extends DefaultTableModel {
     	this.setDataVector(tablaObjects, new String[]{"Informacion Robot","Datos Robot"});
     }
     
-    public JTableModel(Object[][] pMatrizObject) {
-    	super(pMatrizObject, columnModel);
-    }
-	public JTableModel(Object[][] pMatrizObject, String[] pColumnModel) {
-		super(pMatrizObject, pColumnModel);
-	}
+
     public Robot getRobot(int row) {
     	return robots[row];
     }

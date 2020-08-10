@@ -11,11 +11,13 @@ public class Poblacion {
 	static Poblacion self;
 	public HashMap<Integer, Generacion> Generacion;
 	public HashMap<String, Icon> hashImagenes;
-	public final int SizePoblacion = 24;
-	public final double probabilidadMutacion = 0.3; //P(M) = 1 / SizePoblacion 
+	public int SizePoblacion = 24;
+	public double probabilidadMutacion = 0.3; //P(M) = 1 / SizePoblacion 
 													//La probabilidad que un individuo sea mutado
 	public final double maxSizePoblacion = SizePoblacion * probabilidadMutacion *10;
 	private JLabel[][] lblTerreno;
+	private JLabel[][] lblBloques;
+	public int tiempoEspera = 5;
 	private Poblacion() {
 		Generacion = new HashMap<Integer, Generacion>();
 		hashImagenes = new HashMap<String, Icon>();
@@ -67,6 +69,14 @@ public class Poblacion {
 
 	public void setLblTerreno(JLabel[][] lblTerreno) {
 		this.lblTerreno = lblTerreno;
+	}
+	
+	public JLabel[][] getLblBloques() {
+		return lblBloques;
+	}
+
+	public void setLblBloques(JLabel[][] lblBloques) {
+		this.lblBloques = lblBloques;
 	}
 
 	public boolean isAllDead() {

@@ -17,6 +17,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	private Caracteristicas caracteristicas;//algoritmo genetico
 	private int valorAptitud; //basado de 0 a 100
 	private JLabel[][] lblTerreno;
+	private JLabel[][] lblBloques;
 	private Thread HiloRobot;
 	public Posicion posicion, objetivo;
 	public Icon iconRobot;
@@ -27,7 +28,9 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				cantidadObservaciones,
 				cantidadRecargas,
 				energiaRecargada,
-				energiaGastada;
+				energiaGastada,
+				tiempoEspera;
+	
 	private ArrayList<Posicion> posiciones;
 	Random rand = new Random();
 	
@@ -48,7 +51,9 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 					cantidadRecargas =
 						energiaRecargada = 
 						energiaGastada = 0;
+		tiempoEspera = Poblacion.getInstance().tiempoEspera;
 		posiciones = new ArrayList<Posicion>();
+		lblBloques = Simulacion.getInstance().getTerreno().getLblTerreno();
 	}
 	
 	public void Comportarse() {
@@ -119,6 +124,8 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				comportamiento.getNextComportamiento(valorMedio, arrayComportamientoActual);
 			}
 			
+		}else {
+			PintarseGUI();
 		}
 	}
 
@@ -190,6 +197,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		 * No tener direcciones en la lista de direcciones:
 		 * 			Toma una direccion que cumpla de primero en orden de direccion en cruz 
 		 * */
+		PintarBloqueGUI();
 		consumirEnergia();
 		if(direcciones.size() > 0) {
 			setPosicion(direcciones.remove(0));
@@ -212,6 +220,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		}
 		matrizPosicionesPasadas[posicion.x][posicion.y] = true;
 		cantidadMovimientosTotal++;	
+		PintarseGUI();
 	}
 	
 	private void GenerarEnergia() {
@@ -334,11 +343,10 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		/*Metodo que corre al darle Start() al hilo del robot*/
 		while(HiloRobot.isAlive()) {			
 			try {
-				HiloRobot.sleep(5);
+				HiloRobot.sleep(tiempoEspera);
 				Comportarse();
-				PintarseGUI();
 			} catch (InterruptedException e) {
-				e.printStackTrace();
+				System.out.println("Hilo Robot desactualizado");
 			}
 		}
 	}
@@ -349,11 +357,19 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		}else {
 			HiloRobot.stop();
 		}
+		PintarseGUI();
 	}
 	
 	private void PintarseGUI() {
 		/*Este metodo imprime el icono del robot en GUI*/
 		lblTerreno[posicion.x][posicion.y].setIcon(this.iconRobot);
+	}
+	
+	private void PintarBloqueGUI() {
+		/*Este metodo imprime el icono del bloque en GUI*/
+		lblTerreno[posicion.x][posicion.y]
+			.setIcon(
+					lblBloques[posicion.x][posicion.y].getIcon());
 	}
 	
 	@Override
@@ -401,6 +417,10 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		 * para poder mostrarse en GUI*/
 		this.lblTerreno = pTerreno;
 		
+	}
+	
+	public void setLblBloques(JLabel[][] lblBloques) {
+		this.lblBloques = lblBloques;
 	}
 	
 	public ArrayList<Posicion> getPosiciones() {

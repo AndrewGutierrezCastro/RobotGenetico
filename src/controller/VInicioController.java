@@ -8,13 +8,15 @@ import javax.swing.event.TableModelEvent;
 
 import Application.App;
 import gui.VentanaInicio;
+import model.Poblacion;
+import model.Simulacion;
 
  public class VInicioController extends ViewController{
 	VentanaInicio ventana;
 	
 	@Override
 	public void show() {
-		ventana.frame.setVisible(true);
+		ventana.frmSimulacionRobots.setVisible(true);
 		
 	}
 	@Override
@@ -30,8 +32,15 @@ import gui.VentanaInicio;
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "btnIniciar":
-			App.getInstance().controllerMap.get("VPRINCIPALCONTROLLER").show();	
-			ventana.frame.hide();
+			
+			Poblacion.getInstance().SizePoblacion = Integer.valueOf(ventana.txtFieldSizePoblacion.getText());
+			Poblacion.getInstance().tiempoEspera = Integer.valueOf(ventana.txtFieldEsperaRobots.getText());
+			Poblacion.getInstance().probabilidadMutacion = Integer.valueOf(ventana.sldrMutacion.getValue() / 100);
+			App.getInstance();
+			App.controllerMap.put("VPRINCIPALCONTROLLER", new VPrincipalController());
+			App.controllerMap.get("VPRINCIPALCONTROLLER").show();	
+			ventana.frmSimulacionRobots.hide();
+			
 			break;
 
 		default:
