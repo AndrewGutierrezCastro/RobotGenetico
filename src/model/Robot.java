@@ -15,7 +15,7 @@ import controller.Helpers;
 public class Robot extends Genetico implements Runnable, Cloneable{
 	private Comportamiento comportamiento;//Estas son las dos variables a considerar para el 
 	private Caracteristicas caracteristicas;//algoritmo genetico
-	private int valorAptitud; //basado de 0 a 100
+	private double valorAptitud, distancia; //basado de 0 a 100
 	private JLabel[][] lblTerreno;
 	private JLabel[][] lblBloques;
 	private Thread HiloRobot;
@@ -43,30 +43,21 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		objetivo = new Posicion(0, 19);
 		iconRobot = Poblacion.getInstance().hashImagenes.get("ROBOT");
 		HiloRobot = new Thread(this);
-		valorAptitud = Integer.MIN_VALUE;
+		valorAptitud = distancia = 0;
 		matrizPosicionesPasadas = new  Boolean[20][20];
 		cantidadMovimientosDistintos =
-			cantidadMovimientosTotal =
-				cantidadObservaciones =
-					cantidadRecargas =
-						energiaRecargada = 
-						energiaGastada = 0;
+			cantidadObservaciones =
+				cantidadRecargas =
+					energiaRecargada = 
+					energiaGastada = 0;
+		cantidadMovimientosTotal = 1;
 		tiempoEspera = Poblacion.getInstance().tiempoEspera;
 		posiciones = new ArrayList<Posicion>();
 		lblBloques = Simulacion.getInstance().getTerreno().getLblTerreno();
 	}
 	
 	public void Comportarse() {
-		if( (27 - objetivo.distancia(this.posicion) ) > (27 - valorAptitud)) {
-			valorAptitud = (27 - (int) objetivo.distancia(this.posicion));
-			if(valorAptitud >= 25) {
-				this.caracteristicas.Bateria.setEnergia(0);
-			}else {
-				valorAptitud =
-					valorAptitud - 
-					(cantidadMovimientosTotal - cantidadMovimientosDistintos);
-			}
-		}
+		Fitness();
 		if(isAlive()) {
 			int menosProbable = 100,
 				masProbable = 0,
@@ -234,6 +225,19 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		
 	}
 	
+	private void Fitness() {
+		if( (27 - objetivo.distancia(this.posicion) ) > distancia) {
+			distancia = (27 -  objetivo.distancia(this.posicion));
+			if(distancia >= 25) {
+				this.caracteristicas.Bateria.setEnergia(0);
+			}
+			valorAptitud = (50/objetivo.distancia(19,0)) * distancia;
+			System.out.println(valorAptitud);
+			valorAptitud += (50/cantidadMovimientosTotal) * cantidadMovimientosDistintos;
+			System.out.println(valorAptitud);
+		}
+	}
+	
 	@Override		
 	public void Definir() {
 		caracteristicas.Definir();
@@ -395,7 +399,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		return caracteristicas;
 	}
 
-	public int getValorAptitud() {
+	public double getValorAptitud() {
 		return valorAptitud;
 	}
 	
@@ -445,6 +449,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	public Object[] getAllInfo() {
 		/*Retorna un array de Object de:
 		 * Alive:true 
+		 * ValorAptitud: 12
 		 * Camara: MEDIO
 		 * Motor: BASICO
 		 * Bateria: Avanzado
@@ -472,6 +477,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				
 		Object[] objInfo = new Object []
 			{	isAlive(),
+				valorAptitud,
 				caracteristicas.Camara.getName(),
 				caracteristicas.Motor.getName(),
 				caracteristicas.Generador.getName(),

@@ -9,7 +9,7 @@ public class Generacion {
 	public Robot mejorRobotActual;
 	public Posicion objetivo;
 	public double distanciaMinima;
-	public int aptitudGeneral;
+	public double aptitudGeneral;
 	public Generacion(int size, int pNumeroGeneracion) {
 		robots = new Robot[size];
 		objetivo = new Posicion(0,19);
@@ -81,7 +81,7 @@ public class Generacion {
 		probabilidades[0] = 0;
 		Random rand;
 		for(int i=0; i<robots.length; i++) {
-			probabilidades[i+1] = ((float)robots[i].getValorAptitud() / this.aptitudGeneral) * 100;
+			probabilidades[i+1] = (float) ((robots[i].getValorAptitud() / this.aptitudGeneral) * 100);
 			if(i>0) {
 				probabilidades[i+1] = probabilidades[i+1] + probabilidades[i];
 			}

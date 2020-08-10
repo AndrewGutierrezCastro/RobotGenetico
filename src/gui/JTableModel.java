@@ -18,6 +18,7 @@ public class JTableModel extends DefaultTableModel {
 	private static String[] columnModel = new String[] {"Estado", "Alive", "Camara", "Motor","Generador", "Bateria", "X", "Y" };
 	private static String[] rowFormat = new String[] { 
 			"Alive",
+			"Aptitud",
 			"Camara",
 			"Motor",
 			"Generador",
@@ -57,6 +58,7 @@ public class JTableModel extends DefaultTableModel {
     public JTableModel(Robot robot) {
     	/*Retorna un array de Object de:
 		 * Alive:true 
+		 * ValorAptitud: 12
 		 * Camara: MEDIO
 		 * Motor: BASICO
 		 * Bateria: Avanzado

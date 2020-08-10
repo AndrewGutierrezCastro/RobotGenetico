@@ -73,5 +73,10 @@ public	class Posicion{
 		resultado = Math.sqrt(Math.pow((posicion.x - this.x),2) + Math.pow((posicion.y-this.y),2));
 		return  resultado;
 	}
+	public double distancia(int x, int y) {
+		double resultado = 0.0;
+		resultado = Math.sqrt(Math.pow((x - this.x),2) + Math.pow((y-this.y),2));
+		return  resultado;
+	}
 }
 
