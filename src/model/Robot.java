@@ -232,9 +232,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 				this.caracteristicas.Bateria.setEnergia(0);
 			}
 			valorAptitud = (50/objetivo.distancia(19,0)) * distancia;
-			System.out.println(valorAptitud);
 			valorAptitud += (50/cantidadMovimientosTotal) * cantidadMovimientosDistintos;
-			System.out.println(valorAptitud);
 		}
 	}
 	
