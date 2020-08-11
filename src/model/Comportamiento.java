@@ -40,7 +40,7 @@ public class Comportamiento extends Genetico implements Cloneable{
 	
 	public void Definir() {
 		Boolean cadenaCorrecta = true;
-		ArrayList<int[]> comportamientos = new ArrayList<int[]>(Arrays.asList(avanzar, observar, esperar));
+		ArrayList<int[]> comportamientos = new ArrayList<int[]>(Arrays.asList(observar, avanzar, esperar));
 		while(true) {
 			for (int[] comportamiento : comportamientos) {
 				Random rand = new Random();
@@ -54,6 +54,8 @@ public class Comportamiento extends Genetico implements Cloneable{
 			}
 			if(cadenaCorrecta) {
 				break;
+			}else {
+				System.out.println("Comportamiento erroneo");
 			}
 		}
 		

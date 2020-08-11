@@ -228,7 +228,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 	private void Fitness() {
 		if( (27 - objetivo.distancia(this.posicion) ) > distancia) {
 			distancia = (27 -  objetivo.distancia(this.posicion));
-			if(distancia >= 25) {
+			if( objetivo.equals(posicion)) {
 				this.caracteristicas.Bateria.setEnergia(0);
 			}
 			valorAptitud = (50/objetivo.distancia(19,0)) * distancia;

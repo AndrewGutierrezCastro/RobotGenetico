@@ -84,5 +84,11 @@ public	class Posicion{
 		resultado = Math.sqrt(Math.pow((x - this.x),2) + Math.pow((y-this.y),2));
 		return  resultado;
 	}
+	@Override
+	public boolean equals(Object obj) {
+	
+		return ((Posicion)obj).x == this.x & ((Posicion)obj).y == this.y;
+	}
+	
 }
 
