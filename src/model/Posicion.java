@@ -33,6 +33,12 @@ public	class Posicion{
 	}
 
 	public Posicion Mover(int direccion) {
+		if(direccion==4){
+			direccion=3;
+		}
+		if (direccion==5) {
+			direccion=2;
+		}
 		Posicion resultado = Copy();
 		switch (direccion) {
 		case 0:

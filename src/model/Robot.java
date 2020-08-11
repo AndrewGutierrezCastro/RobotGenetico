@@ -195,7 +195,7 @@ public class Robot extends Genetico implements Runnable, Cloneable{
 		}else {
 			Bloque[][] terreno = Simulacion.getInstance().getTerreno().terreno;
 			for(int i = 0; i < 10; i++){// Ciclo que busca una direccion que cumpla para moverse
-				int numeroRandom = rand.nextInt(4) ;
+				int numeroRandom = rand.nextInt(6) ;
 				Posicion posicionRevisada = this.posicion.Mover( numeroRandom );
 				if(RevisarDesplazamiento(posicionRevisada, terreno, this.caracteristicas.Motor)) {
 					setPosicion(posicionRevisada);

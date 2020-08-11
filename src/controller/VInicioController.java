@@ -32,11 +32,9 @@ import model.Simulacion;
 	public void actionPerformed(ActionEvent e) {
 		switch (e.getActionCommand()) {
 		case "btnIniciar":
-			
 			Poblacion.getInstance().SizePoblacion = Integer.valueOf(ventana.txtFieldSizePoblacion.getText());
 			Poblacion.getInstance().tiempoEspera = Integer.valueOf(ventana.txtFieldEsperaRobots.getText());
-			Poblacion.getInstance().probabilidadMutacion = Integer.valueOf(ventana.sldrMutacion.getValue() / 100);
-			App.getInstance();
+			Poblacion.getInstance().probabilidadMutacion = Double.valueOf(ventana.sldrMutacion.getValue()) / 100;
 			App.controllerMap.put("VPRINCIPALCONTROLLER", new VPrincipalController());
 			App.controllerMap.get("VPRINCIPALCONTROLLER").show();	
 			ventana.frmSimulacionRobots.hide();

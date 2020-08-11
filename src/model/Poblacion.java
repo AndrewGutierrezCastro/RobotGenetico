@@ -91,5 +91,12 @@ public class Poblacion {
 		return numeroRobotsMuertos >= (robots.length*0.75);
 	}
 
+	public int getSizePoblacion() {
+		return SizePoblacion;
+	}
+
+	public double getProbabilidadMutacion() {
+		return probabilidadMutacion;
+	}
 	
 }
